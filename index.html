@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlackScale Digital Solutions | AI-Powered Digital Growth</title>
+    <meta name="description" content="BlackScale Digital Solutions — We engineer digital dominance through AI automations, cutting-edge marketing, and scalable digital infrastructure.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Canvas Background -->
+    <canvas id="waveCanvas"></canvas>
+
+    <!-- Particle Overlay -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">⬡</span>
+                <span class="logo-text">BLACK<span class="accent">SCALE</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#results">Results</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#contact" class="nav-cta">Get Started</a></li>
+            </ul>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-content">
+            <div class="hero-badge" data-animate="fade-up">
+                <span class="badge-dot"></span>
+                AI-Powered Digital Agency
+            </div>
+            <h1 data-animate="fade-up" data-delay="100">
+                We Don't Build Websites.<br>
+                <span class="gradient-text">We Build Empires.</span>
+            </h1>
+            <p class="hero-subtitle" data-animate="fade-up" data-delay="200">
+                BlackScale Digital Solutions engineers digital dominance through 
+                AI automations, precision marketing, and scalable infrastructure 
+                that turns startups into market leaders.
+            </p>
+            <div class="hero-actions" data-animate="fade-up" data-delay="300">
+                <a href="#contact" class="btn-primary">
+                    <span>Scale Your Business</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#services" class="btn-secondary">
+                    <span>Explore Services</span>
+                </a>
+            </div>
+            <div class="hero-stats" data-animate="fade-up" data-delay="400">
+                <div class="stat-item">
+                    <span class="stat-number" data-count="150">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Clients Scaled</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="500">0</span><span class="stat-suffix">%</span>
+                    <span class="stat-label">Avg ROI Increase</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="50">0</span><span class="stat-suffix">M+</span>
+                    <span class="stat-label">Revenue Generated</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator" data-animate="fade-up" data-delay="600">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">What We Do</span>
+                <h2>Services Built for <span class="gradient-text">Domination</span></h2>
+                <p class="section-desc">We don't offer cookie-cutter solutions. Every strategy is engineered for maximum impact.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card featured" data-animate="fade-up" data-delay="0">
+                    <div class="card-glow"></div>
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <span class="service-tag">Most Popular</span>
+                    <h3>AI Automations</h3>
+                    <p>Custom AI workflows that eliminate bottlenecks, automate repetitive tasks, and scale your operations 10x without hiring.</p>
+                    <ul class="service-features">
+                        <li>Intelligent chatbots & virtual assistants</li>
+                        <li>Automated lead scoring & nurturing</li>
+                        <li>AI-powered content generation</li>
+                        <li>Predictive analytics & forecasting</li>
+                    </ul>
+                    <a href="#contact" class="service-link">Learn More <span>→</span></a>
+                </div>
+                <div class="service-card" data-animate="fade-up" data-delay="100">
+                    <div class="card-glow"></div>
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                    </div>
+                    <h3>Digital Marketing</h3>
+                    <p>Performance-driven campaigns that capture attention, convert prospects, and crush your competition.</p>
+                    <ul class="service-features">
+                        <li>Paid ads (Meta, Google, TikTok)</li>
+                        <li>SEO & organic growth strategy</li>
+                        <li>Social media management</li>
+                        <li>Email marketing automation</li>
+                    </ul>
+                    <a href="#contact" class="service-link">Learn More <span>→</span></a>
+                </div>
+                <div class="service-card" data-animate="fade-up" data-delay="200">
+                    <div class="card-glow"></div>
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+                        </svg>
+                    </div>
+                    <h3>Web & App Development</h3>
+                    <p>Lightning-fast, conversion-optimized digital experiences that turn visitors into loyal customers.</p>
+                    <ul class="service-features">
+                        <li>Custom web applications</li>
+                        <li>E-commerce platforms</li>
+                        <li>Progressive web apps (PWA)</li>
+                        <li>SaaS product development</li>
+                    </ul>
+                    <a href="#contact" class="service-link">Learn More <span>→</span></a>
+                </div>
+                <div class="service-card" data-animate="fade-up" data-delay="300">
+                    <div class="card-glow"></div>
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <h3>Brand Strategy</h3>
+                    <p>From zero to unforgettable. We craft brand identities that demand attention and build lasting authority.</p>
+                    <ul class="service-features">
+                        <li>Brand identity & visual design</li>
+                        <li>Positioning & messaging framework</li>
+                        <li>Content strategy & storytelling</li>
+                        <li>Reputation management</li>
+                    </ul>
+                    <a href="#contact" class="service-link">Learn More <span>→</span></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About / Why Us Section -->
+    <section id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content" data-animate="fade-right">
+                    <span class="section-tag">Why BlackScale</span>
+                    <h2>We're Not Another <span class="gradient-text">Agency.</span></h2>
+                    <p class="about-lead">We're growth engineers. While others build websites and run ads, we architect complete digital ecosystems that compound your revenue month over month.</p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <div class="feature-icon">⚡</div>
+                            <div>
+                                <h4>Speed to Market</h4>
+                                <p>We move fast. Campaigns launch in days, not months. Your competition won't know what hit them.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="feature-icon">🎯</div>
+                            <div>
+                                <h4>Data-Driven Precision</h4>
+                                <p>Every decision backed by real-time analytics. No guessing. No wasted budget. Pure ROI.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="feature-icon">🤖</div>
+                            <div>
+                                <h4>AI-First Approach</h4>
+                                <p>We leverage cutting-edge AI to give you an unfair advantage in every aspect of your digital presence.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual" data-animate="fade-left">
+                    <div class="visual-card">
+                        <div class="visual-header">
+                            <div class="visual-dots"><span></span><span></span><span></span></div>
+                            <span>blackscale_analytics.py</span>
+                        </div>
+                        <pre class="code-block"><code><span class="code-keyword">class</span> <span class="code-class">GrowthEngine</span>:
+    <span class="code-keyword">def</span> <span class="code-func">__init__</span>(self):
+        self.ai_models = <span class="code-string">"loaded"</span>
+        self.strategy = <span class="code-string">"dominate"</span>
+        self.limits = <span class="code-const">None</span>
+
+    <span class="code-keyword">async def</span> <span class="code-func">scale</span>(self, client):
+        <span class="code-comment"># There are no limits.</span>
+        pipeline = <span class="code-keyword">await</span> self.analyze(client)
+        results = <span class="code-keyword">await</span> self.execute(pipeline)
+        <span class="code-keyword">return</span> results.grow(<span class="code-string">"exponentially"</span>)</code></pre>
+                        <div class="terminal-cursor"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">Proven Results</span>
+                <h2>Numbers That <span class="gradient-text">Speak Volumes</span></h2>
+                <p class="section-desc">We let our results do the talking. Here's what happens when BlackScale takes the wheel.</p>
+            </div>
+            <div class="results-grid">
+                <div class="result-card" data-animate="fade-up" data-delay="0">
+                    <div class="result-metric">
+                        <span class="result-number" data-count="847">0</span><span class="result-suffix">%</span>
+                    </div>
+                    <h4>Revenue Growth</h4>
+                    <p>Average revenue increase for e-commerce clients within 6 months of engagement.</p>
+                </div>
+                <div class="result-card" data-animate="fade-up" data-delay="100">
+                    <div class="result-metric">
+                        <span class="result-number" data-count="3">0</span><span class="result-suffix">.2x</span>
+                    </div>
+                    <h4>ROAS Average</h4>
+                    <p>Return on ad spend across all managed advertising campaigns.</p>
+                </div>
+                <div class="result-card" data-animate="fade-up" data-delay="200">
+                    <div class="result-metric">
+                        <span class="result-number" data-count="10">0</span><span class="result-suffix">M+</span>
+                    </div>
+                    <h4>Leads Generated</h4>
+                    <p>Qualified leads delivered to our clients through multi-channel strategies.</p>
+                </div>
+                <div class="result-card" data-animate="fade-up" data-delay="300">
+                    <div class="result-metric">
+                        <span class="result-number" data-count="98">0</span><span class="result-suffix">%</span>
+                    </div>
+                    <h4>Client Retention</h4>
+                    <p>Our clients stay because we deliver. Period.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">Our Process</span>
+                <h2>From Zero to <span class="gradient-text">Scale</span></h2>
+                <p class="section-desc">A battle-tested framework that consistently delivers explosive growth.</p>
+            </div>
+            <div class="process-timeline">
+                <div class="process-step" data-animate="fade-up" data-delay="0">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h3>Deep Discovery</h3>
+                        <p>We dissect your business, market, and competitors. No stone unturned. We find the gaps and the gold.</p>
+                    </div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="process-step" data-animate="fade-up" data-delay="150">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h3>Strategic Blueprint</h3>
+                        <p>A custom growth playbook engineered specifically for your business. Data-backed, AI-enhanced, and battle-ready.</p>
+                    </div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="process-step" data-animate="fade-up" data-delay="300">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h3>Rapid Execution</h3>
+                        <p>We deploy fast. Campaigns, automations, and systems go live while your competitors are still in meetings.</p>
+                    </div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="process-step" data-animate="fade-up" data-delay="450">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <h3>Scale & Optimize</h3>
+                        <p>Continuous optimization through AI-driven insights. We don't just launch — we relentlessly improve and scale.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="cta-wrapper" data-animate="fade-up">
+                <div class="cta-glow"></div>
+                <span class="section-tag">Ready to Scale?</span>
+                <h2>Your Competition Is Already <span class="gradient-text">Moving.</span></h2>
+                <p class="cta-desc">Every day you wait is a day your competitors gain ground. Let's build your unfair advantage — starting now.</p>
+                <form class="cta-form" id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" id="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="Your Email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select id="service">
+                            <option value="" disabled selected>What do you need?</option>
+                            <option value="ai">AI Automations</option>
+                            <option value="marketing">Digital Marketing</option>
+                            <option value="web">Web & App Development</option>
+                            <option value="brand">Brand Strategy</option>
+                            <option value="all">Full-Scale Growth Package</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" placeholder="Tell us about your project..." rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary btn-full">
+                        <span>Launch My Growth</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <span class="logo-icon">⬡</span>
+                        <span class="logo-text">BLACK<span class="accent">SCALE</span></span>
+                    </a>
+                    <p>Engineering digital dominance for brands that refuse to be average.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Twitter">𝕏</a>
+                        <a href="#" aria-label="LinkedIn">in</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <a href="#services">AI Automations</a>
+                    <a href="#services">Digital Marketing</a>
+                    <a href="#services">Web Development</a>
+                    <a href="#services">Brand Strategy</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="#about">About Us</a>
+                    <a href="#results">Case Studies</a>
+                    <a href="#process">Our Process</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Connect</h4>
+                    <a href="mailto:hello@blackscale.io">hello@blackscale.io</a>
+                    <a href="tel:+1234567890">+1 (234) 567-890</a>
+                    <a href="#">Schedule a Call</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 BlackScale Digital Solutions. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
