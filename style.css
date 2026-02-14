@@ -126,16 +126,25 @@ body {
 }
 
 .logo-icon {
-    font-size: 1.5rem;
-    background: var(--gradient-main);
+    font-size: 1.4rem;
+    background: linear-gradient(135deg, #3a7bd5 0%, #6cb4ee 50%, #a0a0a0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    filter: drop-shadow(0 0 8px rgba(108, 63, 255, 0.5));
+    filter: drop-shadow(0 0 8px rgba(58, 123, 213, 0.5));
+    transform: rotate(45deg);
+    display: inline-block;
+}
+
+.logo-sub {
+    font-weight: 300;
+    font-size: 0.65em;
+    letter-spacing: 0.35em;
+    color: var(--text-secondary);
 }
 
 .logo-text .accent {
-    background: var(--gradient-main);
+    background: linear-gradient(135deg, #c0c0c0 0%, #ffffff 50%, #a0a0a0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
