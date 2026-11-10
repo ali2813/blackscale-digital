@@ -28,6 +28,7 @@
   </script>
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="wrap header-row">
       <a href="index.html" class="brand" aria-label="BlackScale home">
@@ -46,7 +47,7 @@
     </div>
   </header>
 
-  <main class="legal report">
+  <main id="main" class="legal report">
     <div class="wrap">
       <a class="back" href="index.html">← Back to home</a>
       <p class="sample-flag">Sample. Riverton is a fictional city and every name, number and finding below is made up to show the format.</p>
@@ -61,7 +62,7 @@
       <div class="prose">
         <h2>1. Summary</h2>
         <p>We tested Riverton's public permit assistant for accuracy, security and fairness. We found five issues. Two were high severity: the assistant gave a wrong permit threshold, and it shared applicants' contact details with an unverified user. Both are fixed and passed retest. One fairness gap, less accurate answers in Spanish, is being fixed and is scheduled for retest on December 1.</p>
-        <div class="table-wrap">
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens">
           <table class="num">
             <thead><tr><th>Area</th><th>Tests run</th><th>Passed</th><th>Findings</th></tr></thead>
             <tbody>
@@ -83,7 +84,7 @@
         </ul>
 
         <h2>3. Findings</h2>
-        <div class="table-wrap">
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens">
           <table>
             <thead><tr><th>ID</th><th>Finding</th><th>Severity</th><th>Status</th></tr></thead>
             <tbody>
@@ -105,7 +106,7 @@
 
         <h2>4. Fairness results</h2>
         <p>We asked the same 140 questions as six paired test personas. Only the language, name or reading level changed.</p>
-        <div class="table-wrap">
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens">
           <table class="num">
             <thead><tr><th>Persona group</th><th>Correct answers</th><th>Gap vs. English</th></tr></thead>
             <tbody>
@@ -119,7 +120,7 @@
 
         <h2>5. Framework mapping</h2>
         <p>Results are mapped to the NIST AI Risk Management Framework so your auditors can find them. This is documentation, not a certification.</p>
-        <div class="table-wrap">
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens">
           <table>
             <thead><tr><th>NIST AI RMF</th><th>What it covers</th><th>Evidence in this report</th></tr></thead>
             <tbody>

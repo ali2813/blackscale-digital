@@ -1,3 +1,26 @@
+/* ---------- Shared pause control for moving content (WCAG 2.2.2) ---------- */
+window.bsMotion = (() => {
+  let paused = false;
+  try { paused = localStorage.getItem('bs-motion') === 'paused'; } catch (e) {}
+  const subs = [];
+  const sync = () => document.querySelectorAll('.motion-btn').forEach((b) => {
+    b.setAttribute('aria-pressed', paused);
+    b.querySelector('.motion-label').textContent = paused ? 'Play motion' : 'Pause motion';
+  });
+  const mark = () => document.documentElement.classList.toggle('motion-paused', paused);
+  mark();
+  document.addEventListener('DOMContentLoaded', sync);
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.motion-btn')) return;
+    paused = !paused;
+    try { localStorage.setItem('bs-motion', paused ? 'paused' : 'on'); } catch (err) {}
+    sync();
+    mark();
+    subs.forEach((fn) => fn(paused));
+  });
+  return { get paused() { return paused; }, on: (fn) => subs.push(fn) };
+})();
+
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
   const consoleEl = $('#console');
@@ -22,7 +45,7 @@
   const chatScreen = (title) => `
     <div class="chat">
       <div class="chat-head"><span class="seal">R</span>${title}<small>AI assistant</small></div>
-      <div class="chat-log" data-t="chat" data-v="chat"></div>
+      <div class="chat-log" data-t="chat" data-v="chat" tabindex="0" role="log" aria-label="Chat transcript"></div>
       <div class="chat-input" data-t="input"><span data-v="input">Ask a permit question…</span><i></i></div>
     </div>`;
 
@@ -169,7 +192,18 @@
   let tick = null;
   let autoAdvance = !reduced;
 
-  const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+  let pending = null;
+  let pausedAt = 0;
+  const later = (fn, ms) => timers.push(setTimeout(() => {
+    if (window.bsMotion.paused) pending = fn; else fn();
+  }, ms));
+  window.bsMotion.on((paused) => {
+    const done = consoleEl.classList.contains('done');
+    if (!done && started) statusEl.textContent = paused ? 'Paused' : 'Running';
+    if (paused) { pausedAt = performance.now(); return; }
+    if (pausedAt) { t0 += performance.now() - pausedAt; pausedAt = 0; }
+    if (pending) { const fn = pending; pending = null; fn(); }
+  });
   const clearAll = () => { timers.forEach(clearTimeout); timers = []; clearInterval(tick); };
   const fmt = (ms) => {
     const s = ms / 1000;
@@ -283,7 +317,7 @@
     }
     i = 0;
     t0 = performance.now();
-    tick = setInterval(() => { timerEl.textContent = fmt(performance.now() - t0); }, 100);
+    tick = setInterval(() => { if (!window.bsMotion.paused) timerEl.textContent = fmt(performance.now() - t0); }, 100);
     later(runStep, 500);
   }
 
@@ -540,7 +574,7 @@
   function frame(now) {
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
-    if (!document.hidden) { update(dt); draw(); }
+    if (!document.hidden && !window.bsMotion.paused) { update(dt); draw(); }
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);

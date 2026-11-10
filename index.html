@@ -28,6 +28,7 @@
   </script>
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
   <canvas id="traces" aria-hidden="true"></canvas>
 
   <!-- Shared avatar drawing. Accent comes from currentColor. -->
@@ -76,7 +77,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main">
     <section class="hero">
       <div class="wrap hero-grid">
         <div class="hero-copy">
@@ -87,7 +88,7 @@
             <a class="btn" href="https://calendly.com/contact-blackscale/30min" target="_blank" rel="noopener">Book a 30-minute call</a>
             <a class="btn btn-ghost" href="sample-report.html">See a sample report</a>
           </div>
-          <p class="hero-note">Based in Buffalo, NY. Built on work in federal contracting, local nonprofits and startups.</p>
+          <p class="hero-note">Based in Buffalo, NY. Seven years in federal contracting, local nonprofits and startups.</p>
         </div>
 
         <figure class="record" aria-label="Example: a chatbot answer marked up by a BlackScale reviewer">
@@ -151,10 +152,13 @@
                 <div class="agent-status"><span class="status-dot"></span><span id="agentStatus">Running</span> · <span class="mono" id="runTimer">00:00.0</span></div>
               </div>
             </div>
-            <div class="tabs" role="tablist" aria-label="Choose an agent">
+            <div class="console-controls">
+              <div class="tabs" role="tablist" aria-label="Choose an agent">
               <button role="tab" id="tab-qa" data-mode="qa" aria-selected="true">Probe <span>Accuracy</span></button>
               <button role="tab" id="tab-red" data-mode="red" aria-selected="false">Breach <span>Red</span></button>
               <button role="tab" id="tab-blue" data-mode="blue" aria-selected="false">Warden <span>Fairness</span></button>
+            </div>
+              <button class="motion-btn" type="button" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><g class="i-pause" fill="currentColor"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></g><path class="i-play" d="M4 2.5v11l9.5-5.5z" fill="currentColor"/></svg><span class="motion-label">Pause motion</span></button>
             </div>
           </div>
 
@@ -171,7 +175,7 @@
             </div>
             <div class="trace">
               <div class="trace-head mono"><span>Trace</span><span id="stepCount">0 / 0</span></div>
-              <ol class="log" id="log" aria-live="polite"></ol>
+              <ol class="log" id="log" aria-live="polite" tabindex="0" aria-label="Test trace"></ol>
             </div>
           </div>
 
@@ -279,7 +283,7 @@
           </li>
           <li>
             <span class="step-n mono">02</span>
-            <h3>Baseline test <span class="tag">One time</span></h3>
+            <h3>Baseline test <span class="step-tag">One time</span></h3>
             <p>All three agents test one system for accuracy, security and fairness. You get findings ranked by impact.</p>
           </li>
           <li>
@@ -289,7 +293,7 @@
           </li>
           <li>
             <span class="step-n mono">04</span>
-            <h3>Ongoing assurance <span class="tag tag-main">Monthly</span></h3>
+            <h3>Ongoing assurance <span class="step-tag step-tag-main">Monthly</span></h3>
             <p>Retests every month and after any change or vendor update, alerts when something slips, and a quarterly evidence report mapped to the NIST AI Risk Management Framework.</p>
           </li>
         </ol>
@@ -302,7 +306,7 @@
           <h2>Who's behind BlackScale</h2>
         </div>
         <div class="about-body">
-          <p class="about-lead">BlackScale Digital is a small, independent practice in Buffalo, New York. It grew out of years of work in three places where software has to hold up to scrutiny on a tight budget.</p>
+          <p class="about-lead">BlackScale Digital is a small, independent practice in Buffalo, New York. It grew out of seven years of work in three places where software has to hold up to scrutiny on a tight budget.</p>
           <dl class="about-list">
             <div><dt>Federal contracts</dt><dd>Delivering work under formal requirements, reviews and documentation standards. That's where the evidence reports come from.</dd></div>
             <div><dt>Local nonprofits</dt><dd>Helping small teams that serve their communities adopt new tools without a dedicated IT or security staff.</dd></div>
@@ -355,6 +359,7 @@
   <footer class="site-footer">
     <div class="wrap footer-row">
       <span>© 2026 BlackScale Digital</span>
+      <button class="motion-btn" type="button" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><g class="i-pause" fill="currentColor"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></g><path class="i-play" d="M4 2.5v11l9.5-5.5z" fill="currentColor"/></svg><span class="motion-label">Pause motion</span></button>
       <span class="footer-links"><a href="privacy.html">Privacy</a> <a href="terms.html">Terms</a> <a href="cookies.html">Cookies</a></span>
       <span class="footer-contact">
         <a href="mailto:blackscaledigital1@gmail.com">blackscaledigital1@gmail.com</a>
