@@ -579,3 +579,99 @@ window.bsMotion = (() => {
   }
   requestAnimationFrame(frame);
 })();
+
+/* ---------- Inquiry form ---------- */
+(() => {
+  const form = document.getElementById('intake');
+  if (!form) return;
+  const status = document.getElementById('f-status');
+  const submit = document.getElementById('f-submit');
+
+  const rules = [
+    { el: '#f-name', msg: 'Enter your name.' },
+    { el: '#f-email', msg: 'Enter an email address like name@organization.org.', test: (el) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()) },
+    { el: '#f-org', msg: 'Enter your organization name.' },
+    { el: '#f-type', msg: 'Choose the type of organization.' },
+    { group: 'built_by', box: '#f-built', err: '#f-built-err', msg: 'Choose who built the tool. "Not sure" is fine.' },
+    { el: '#f-consent', msg: 'Check this box so we can reply to you.', test: (el) => el.checked },
+  ];
+
+  function check(rule) {
+    if (rule.group) {
+      const ok = !!form.querySelector(`input[name="${rule.group}"]:checked`);
+      form.querySelector(rule.err).textContent = ok ? '' : rule.msg;
+      form.querySelectorAll(`input[name="${rule.group}"]`).forEach((r) => r.setAttribute('aria-invalid', !ok));
+      return ok ? null : form.querySelector(`input[name="${rule.group}"]`);
+    }
+    const el = form.querySelector(rule.el);
+    const ok = rule.test ? rule.test(el) : el.value.trim() !== '';
+    const err = form.querySelector(rule.el + '-err');
+    err.textContent = ok ? '' : rule.msg;
+    el.setAttribute('aria-invalid', !ok);
+    el.setAttribute('aria-describedby', err.id);
+    return ok ? null : el;
+  }
+
+  rules.forEach((r) => {
+    const targets = r.group ? form.querySelectorAll(`input[name="${r.group}"]`) : [form.querySelector(r.el)];
+    targets.forEach((el) => {
+      // Clear an error as soon as the field is fixed (while typing), so the
+      // layout doesn't jump later when the visitor clicks somewhere else.
+      const evt = (el.tagName === 'INPUT' && /text|email|tel/.test(el.type)) ? 'input' : 'change';
+      el.addEventListener(evt, () => { if (el.getAttribute('aria-invalid') === 'true') check(r); });
+    });
+  });
+
+  function summary(data) {
+    const lines = [];
+    const add = (label, key) => {
+      const v = data.getAll(key).filter(Boolean).join(', ');
+      if (v) lines.push(`${label}: ${v}`);
+    };
+    add('Name', 'name'); add('Email', 'email'); add('Organization', 'organization'); add('Phone', 'phone');
+    add('Type', 'organization_type'); add('AI in use', 'ai_systems'); add('Built by', 'built_by');
+    add('Needs', 'needs'); add('Prompted by', 'driver'); add('Timeline', 'timeline'); add('Message', 'message');
+    return lines.join('\n');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const firstBad = rules.map(check).find(Boolean);
+    if (firstBad) {
+      status.className = 'form-status bad';
+      status.textContent = 'Please fix the highlighted fields.';
+      firstBad.focus();
+      return;
+    }
+    const data = new FormData(form);
+    if (data.get('_gotcha')) return; // bot filled the hidden field
+
+    const endpoint = form.dataset.endpoint;
+    if (!endpoint) {
+      // No form service connected yet: hand the answers to the visitor's email app.
+      const subject = `AI testing inquiry from ${data.get('organization')}`;
+      window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(summary(data))}`;
+      status.className = 'form-status';
+      status.textContent = `Your email app should open with your answers filled in. If it doesn't, email ${form.dataset.email}.`;
+      return;
+    }
+
+    submit.disabled = true;
+    status.className = 'form-status';
+    status.textContent = 'Sending…';
+    data.append('_subject', `AI testing inquiry from ${data.get('organization')}`);
+    try {
+      const res = await fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+      if (!res.ok) throw new Error(String(res.status));
+      form.classList.add('sent');
+      status.className = 'form-status ok';
+      status.textContent = 'Thanks. Your inquiry was sent. We\'ll reply within two business days.';
+      status.setAttribute('tabindex', '-1');
+      status.focus();
+    } catch (err) {
+      status.className = 'form-status bad';
+      status.textContent = `Your inquiry didn't send. Please try again, or email ${form.dataset.email}.`;
+      submit.disabled = false;
+    }
+  });
+})();
