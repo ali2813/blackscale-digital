@@ -348,7 +348,7 @@
     occ.clear(); snakes = []; pads = [];
     const n = Math.max(8, Math.min(44, Math.round((cols * rows) / 60)));
     for (let i = 0; i < n; i++) pads.push({ x: rnd(1, cols - 2), y: rnd(1, rows - 2), flash: 0, col: colors.a });
-    want = Math.max(5, Math.min(24, Math.round((W * H) / 60000)));
+    want = Math.max(3, Math.min(10, Math.round((W * H) / 140000)));
   }
 
   function spawn() {
@@ -361,7 +361,7 @@
     snakes.push({
       pts: [[from.x, from.y]], cells: [], dir: null, target: to,
       head: 0, tail: 0, t: 0, len: rnd(8, 18),
-      speed: 7 + Math.random() * 6, state: 'run', fade: 1,
+      speed: 3 + Math.random() * 2.5, state: 'run', fade: 1,
       col: colors[k], key: k,
     });
   }
@@ -425,7 +425,7 @@
       }
     }
     snakes = snakes.filter((s) => { if (s.fade <= 0) { release(s); return false; } return true; });
-    if (running < want && Math.random() < dt * 4) spawn();
+    if (running < want && Math.random() < dt * 1.2) spawn();
     for (const p of pads) if (p.flash > 0) p.flash = Math.max(0, p.flash - dt * 0.9);
   }
 
@@ -444,7 +444,7 @@
       s.col = colors[s.key];
       ctx.strokeStyle = s.col;
       // etched route left behind
-      ctx.globalAlpha = 0.22 * s.fade;
+      ctx.globalAlpha = 0.14 * s.fade;
       ctx.lineWidth = 1.2;
       ctx.beginPath();
       const end = s.state === 'run' ? Math.floor(s.head) : s.pts.length - 1;
@@ -458,26 +458,26 @@
       const body = [at(s, s.tail)];
       for (let i = Math.ceil(s.tail); i <= Math.floor(s.head); i++) body.push([X(s.pts[i][0]), X(s.pts[i][1])]);
       body.push(at(s, s.head));
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1.5;
       for (let i = 1; i < body.length; i++) {
         ctx.globalAlpha = 0.12 + 0.88 * (i / (body.length - 1));
         ctx.beginPath(); ctx.moveTo(body[i - 1][0], body[i - 1][1]); ctx.lineTo(body[i][0], body[i][1]); ctx.stroke();
       }
       const [hx, hy] = body[body.length - 1];
       ctx.fillStyle = s.col;
-      ctx.globalAlpha = 0.18; ctx.beginPath(); ctx.arc(hx, hy, 7, 0, 6.283); ctx.fill();
-      ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(hx, hy, 2.6, 0, 6.283); ctx.fill();
+      ctx.globalAlpha = 0.12; ctx.beginPath(); ctx.arc(hx, hy, 5, 0, 6.283); ctx.fill();
+      ctx.globalAlpha = 0.85; ctx.beginPath(); ctx.arc(hx, hy, 2.2, 0, 6.283); ctx.fill();
     }
 
     for (const p of pads) {
       const x = X(p.x), y = X(p.y);
-      ctx.globalAlpha = 0.55;
+      ctx.globalAlpha = 0.35;
       ctx.strokeStyle = colors.pad; ctx.lineWidth = 1.2;
       ctx.strokeRect(x - 4, y - 4, 8, 8);
       if (p.flash > 0) {
         ctx.fillStyle = p.col; ctx.strokeStyle = p.col;
-        ctx.globalAlpha = p.flash; ctx.fillRect(x - 4, y - 4, 8, 8);
-        ctx.globalAlpha = p.flash * 0.6; ctx.beginPath(); ctx.arc(x, y, 6 + (1 - p.flash) * 22, 0, 6.283); ctx.stroke();
+        ctx.globalAlpha = p.flash * 0.7; ctx.fillRect(x - 4, y - 4, 8, 8);
+        ctx.globalAlpha = p.flash * 0.35; ctx.beginPath(); ctx.arc(x, y, 6 + (1 - p.flash) * 14, 0, 6.283); ctx.stroke();
       }
     }
     ctx.globalAlpha = 1;
@@ -500,7 +500,7 @@
   if (reduced) { still(); return; }
 
   resize();
-  for (let i = 0; i < 90; i++) update(1 / 30); // start with traces already on the board
+  for (let i = 0; i < 150; i++) update(1 / 30); // start with traces already on the board
   let last = performance.now();
   function frame(now) {
     const dt = Math.min(0.05, (now - last) / 1000);

@@ -32,7 +32,7 @@
   --bg-2: #0d1320;
   --glow-a: rgb(76 141 255 / .16);
   --glow-b: rgb(47 210 194 / .08);
-  --trace-opacity: .6;
+  --trace-opacity: .32;
   --shadow: rgb(0 0 0 / .5);
   --radius: 10px;
   color-scheme: dark;
@@ -59,7 +59,7 @@
   --warn: #a8670c;
   --glow-a: rgb(34 89 224 / .14);
   --glow-b: rgb(11 149 138 / .10);
-  --trace-opacity: .38;
+  --trace-opacity: .22;
   --shadow: rgb(15 25 45 / .18);
   color-scheme: light;
   }
@@ -85,7 +85,7 @@
   --warn: #a8670c;
   --glow-a: rgb(34 89 224 / .14);
   --glow-b: rgb(11 149 138 / .10);
-  --trace-opacity: .38;
+  --trace-opacity: .22;
   --shadow: rgb(15 25 45 / .18);
   color-scheme: light;
 }
