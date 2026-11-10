@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>BlackScale Agents</title>
-  <meta name="description" content="BlackScale builds and runs AI agents that test your SaaS product on every release, plus red team and blue team agents for security.">
+  <title>BlackScale | AI Risk Testing</title>
+  <meta name="description" content="AI risk and compliance testing for small and mid-size businesses, nonprofits and local governments. Accuracy, red team and fairness testing, with ongoing evidence reports.">
   <link rel="icon" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,7 +40,8 @@
         <span class="brand-word">BlackScale</span>
       </a>
       <nav class="nav" aria-label="Main">
-        <a href="#live">Live run</a>
+        <a href="#live">Test run</a>
+        <a href="#who">Who it's for</a>
         <a href="#agents">Agents</a>
         <a href="#process">How it works</a>
         <a href="#faq">FAQ</a>
@@ -52,13 +53,13 @@
   <main>
     <section class="hero">
       <div class="wrap">
-        <p class="eyebrow">AI agents for SaaS reliability and security</p>
-        <h1>Agents that break your app before your customers do.</h1>
+        <p class="eyebrow">AI risk and compliance testing</p>
+        <h1>Your AI talks to the public. We test what it says.</h1>
         <div class="hero-foot">
-          <p class="lede">We build, run and maintain AI agents that test your product on every release. They click through real user flows, check what the UI and API actually return, and file bugs with steps to reproduce. For security, red team agents probe the scope you approve and blue team agents make sure you would catch them.</p>
+          <p class="lede">BlackScale tests chatbots and AI tools for small and mid-size businesses, nonprofits and local governments. Our agents check that answers are correct, try to break the system the way an attacker would, and measure whether it treats everyone the same. You get findings to fix, and an evidence report you can hand to your board, your auditors or your council.</p>
           <div class="hero-actions">
             <a class="btn" href="https://calendly.com/contact-blackscale/30min" target="_blank" rel="noopener">Book a 30-minute call</a>
-            <a class="btn btn-ghost" href="#live">Watch an agent run</a>
+            <a class="btn btn-ghost" href="#live">Watch a test run</a>
           </div>
         </div>
       </div>
@@ -67,8 +68,8 @@
     <section id="live" class="live">
       <div class="wrap">
         <div class="section-head">
-          <h2>One run, start to finish</h2>
-          <p>An example run against Ledgerline, a demo billing app. Switch agents to see how each one works.</p>
+          <h2>One test run, start to finish</h2>
+          <p>An example run against the permit assistant of Riverton, a fictional city. Switch agents to see how each one works.</p>
         </div>
 
         <div class="console" id="console" data-mode="qa">
@@ -98,14 +99,14 @@
                 </g>
               </svg>
               <div class="agent-meta">
-                <div class="agent-name"><span id="agentName">Probe</span> <span class="agent-role" id="agentRole">Reliability QA</span></div>
+                <div class="agent-name"><span id="agentName">Probe</span> <span class="agent-role" id="agentRole">Accuracy</span></div>
                 <div class="agent-status"><span class="status-dot"></span><span id="agentStatus">Running</span> · <span class="mono" id="runTimer">00:00.0</span></div>
               </div>
             </div>
             <div class="tabs" role="tablist" aria-label="Choose an agent">
-              <button role="tab" id="tab-qa" data-mode="qa" aria-selected="true">Probe <span>QA</span></button>
+              <button role="tab" id="tab-qa" data-mode="qa" aria-selected="true">Probe <span>Accuracy</span></button>
               <button role="tab" id="tab-red" data-mode="red" aria-selected="false">Breach <span>Red</span></button>
-              <button role="tab" id="tab-blue" data-mode="blue" aria-selected="false">Warden <span>Blue</span></button>
+              <button role="tab" id="tab-blue" data-mode="blue" aria-selected="false">Warden <span>Fairness</span></button>
             </div>
           </div>
 
@@ -113,7 +114,7 @@
             <div class="viewport">
               <div class="vp-chrome">
                 <span class="vp-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                <span class="vp-url mono" id="vpUrl">staging.ledgerline.app/settings/billing</span>
+                <span class="vp-url mono" id="vpUrl">riverton.gov/permits · assistant</span>
               </div>
               <div class="screen" id="screen"></div>
               <div class="cursor" id="cursor" aria-hidden="true">
@@ -131,69 +132,85 @@
       </div>
     </section>
 
+    <section id="who" class="audience">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Built for teams without an AI safety department</h2>
+          <p>Large companies have staff for this. Most organizations putting AI in front of the public don't. We do the testing and keep the records.</p>
+        </div>
+        <div class="aud-grid">
+          <div class="aud">
+            <h3>Local governments</h3>
+            <p>When permitting, 311 or benefits questions go through AI, someone has to show the council and the public that it gives correct answers and treats every resident the same.</p>
+            <div class="uses"><span>permitting</span><span>311</span><span>benefits</span><span>public records</span></div>
+          </div>
+          <div class="aud">
+            <h3>Nonprofits</h3>
+            <p>Intake and helpline tools handle sensitive information about the people you serve. Funders and partners now ask how you manage the risk.</p>
+            <div class="uses"><span>intake</span><span>helplines</span><span>case notes</span><span>grant reporting</span></div>
+          </div>
+          <div class="aud">
+            <h3>Small and mid-size businesses</h3>
+            <p>Customer service bots carry your name. AI used in hiring, lending or housing decisions can fall under state laws that require risk assessments.</p>
+            <div class="uses"><span>support bots</span><span>hiring</span><span>lending</span><span>housing</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="agents" class="agents">
       <div class="wrap">
         <div class="section-head">
           <h2>The agents</h2>
-          <p>Each agent is set up for your product, runs on our infrastructure, and has a BlackScale engineer behind it.</p>
+          <p>Three agents test every system we cover. A BlackScale analyst reviews each finding before it reaches you.</p>
         </div>
-
-        <article class="agent-card agent-primary" style="--agent: var(--probe)">
-          <div class="agent-card-head">
-            <svg class="avatar-sm" aria-hidden="true"><use href="#avatar"/></svg>
-            <div>
-              <p class="agent-kicker">Core product</p>
-              <h3>Probe <span>Reliability QA</span></h3>
+        <div class="agent-grid">
+          <article class="agent-card" style="--agent: var(--probe)">
+            <div class="agent-card-head">
+              <svg class="avatar-sm" aria-hidden="true"><use href="#avatar"/></svg>
+              <div>
+                <p class="agent-kicker">Accuracy</p>
+                <h3>Probe</h3>
+              </div>
             </div>
-          </div>
-          <div class="agent-card-body">
-            <p>Probe learns your app the way a new QA hire would, by using it. Then it runs every important flow on each deploy and tells you the moment one stops working.</p>
+            <p>Asks your AI the questions people actually ask, and checks every answer against your own policies and documents.</p>
             <ul class="tasks">
-              <li>Explores signup, checkout, billing and admin flows and drafts a test plan for you to approve</li>
-              <li>Runs every flow in real browsers on each pull request and every night</li>
-              <li>Checks API responses, emails, webhooks and invoices, not only what is on screen</li>
-              <li>Adapts when your UI changes, and tells you each time it did</li>
-              <li>Files regressions with a video trace, repro steps and the deploy that caused them</li>
+              <li>Builds a test set from your website, policies, code and FAQs</li>
+              <li>Tests in every language you serve</li>
+              <li>Finds the outdated or conflicting documents behind wrong answers</li>
+              <li>Reruns the full set after every change</li>
             </ul>
-          </div>
-        </article>
-
-        <div class="pair">
+          </article>
           <article class="agent-card" style="--agent: var(--red)">
             <div class="agent-card-head">
               <svg class="avatar-sm" aria-hidden="true"><use href="#avatar"/></svg>
               <div>
-                <p class="agent-kicker">Offensive security</p>
-                <h3>Breach <span>Red team</span></h3>
+                <p class="agent-kicker">Red team</p>
+                <h3>Breach</h3>
               </div>
             </div>
+            <p>Tries to make your AI leak data, break its own rules or give harmful advice, before someone else does.</p>
             <ul class="tasks">
-              <li>Maps your attack surface from the app and its API</li>
-              <li>Tests auth, tenant isolation, injection and rate limits</li>
-              <li>Runs only against the targets and time window you sign off</li>
-              <li>Stops at proof. Each finding comes with a suggested fix</li>
+              <li>Prompt injection and jailbreak attempts</li>
+              <li>Leaks of personal data and records</li>
+              <li>Impersonation of staff and officials</li>
+              <li>Runs only in the scope and window you approve</li>
             </ul>
           </article>
-
-          <div class="pair-link" aria-hidden="true">
-            <span class="mono">finding</span>
-            <span class="pair-line"></span>
-            <span class="mono">detection</span>
-          </div>
-
           <article class="agent-card" style="--agent: var(--teal)">
             <div class="agent-card-head">
               <svg class="avatar-sm" aria-hidden="true"><use href="#avatar"/></svg>
               <div>
-                <p class="agent-kicker">Defensive security</p>
-                <h3>Warden <span>Blue team</span></h3>
+                <p class="agent-kicker">Blue team</p>
+                <h3>Warden</h3>
               </div>
             </div>
+            <p>Checks that your AI treats people fairly, keeps watching after launch, and keeps the records.</p>
             <ul class="tasks">
-              <li>Reads your auth, API and infrastructure logs around the clock</li>
-              <li>Groups related events into incidents with a timeline</li>
-              <li>Writes detection rules and tests them against past logs</li>
-              <li>Replays every Breach finding to confirm you would have caught it</li>
+              <li>Compares answers across languages, names and reading levels</li>
+              <li>Flags changes in behavior after a vendor or model update</li>
+              <li>Reviews a monthly sample of real conversations, with personal data removed</li>
+              <li>Keeps the evidence log for your audits and reports</li>
             </ul>
           </article>
         </div>
@@ -204,30 +221,42 @@
       <div class="wrap">
         <div class="section-head">
           <h2>How it works</h2>
-          <p>Most teams have an agent running against staging within two weeks of the first call.</p>
+          <p>A one-time baseline, then ongoing testing, because AI systems change when your documents, settings or vendor's model change.</p>
         </div>
         <ol class="steps">
           <li>
             <span class="step-n mono">01</span>
             <h3>Scope call</h3>
-            <p>30 minutes. We pick the flows that cost you the most when they break, and agree what security testing is in scope.</p>
+            <p>30 minutes. We list the AI systems you use, who they serve, and which rules and policies apply.</p>
           </li>
           <li>
             <span class="step-n mono">02</span>
-            <h3>Map</h3>
-            <p>Probe explores your staging app and drafts a test plan. You review it and mark what matters.</p>
+            <h3>Baseline test</h3>
+            <p>All three agents test one system for accuracy, security and fairness. You get findings ranked by impact.</p>
           </li>
           <li>
             <span class="step-n mono">03</span>
-            <h3>Run</h3>
-            <p>Suites run in your CI on every pull request and on a nightly schedule. Security runs follow the window you set.</p>
+            <h3>Fix and retest</h3>
+            <p>You or your vendor fix what we found. We retest and record what changed and when.</p>
           </li>
           <li>
             <span class="step-n mono">04</span>
-            <h3>Triage</h3>
-            <p>An engineer checks each finding before it reaches you, so your tracker gets real bugs, not noise.</p>
+            <h3>Ongoing assurance</h3>
+            <p>Monthly retests, alerts when something slips, and a quarterly evidence report.</p>
           </li>
         </ol>
+        <div class="plans-grid">
+          <div class="offer">
+            <p class="offer-kicker">One time</p>
+            <h3>Baseline assessment</h3>
+            <p>A full accuracy, red team and fairness test of one AI system, a retest after fixes, and your first evidence report.</p>
+          </div>
+          <div class="offer main">
+            <p class="offer-kicker">Monthly</p>
+            <h3>Ongoing assurance</h3>
+            <p>Scheduled retests, retests after every change or vendor update, monthly summaries and a quarterly evidence report that maps results to the NIST AI Risk Management Framework.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -238,20 +267,20 @@
         </div>
         <div class="faq-list">
           <details open>
-            <summary>Do the agents need access to production?</summary>
-            <p>No. Most teams start on staging with seeded test accounts. Some later add read-only checks against production for flows like signup and checkout.</p>
+            <summary>Do you certify that our AI is compliant?</summary>
+            <p>No. We test and document. The evidence report shows what was tested, what we found, what was fixed and when. Your counsel or auditors use it to decide whether you meet a given rule.</p>
           </details>
           <details>
-            <summary>How is this different from writing Playwright or Cypress tests?</summary>
-            <p>You don't write or maintain the tests. Probe drafts them, keeps them working as your UI changes, and checks outcomes your scripts usually skip, like the invoice total or the email that should have gone out.</p>
+            <summary>We bought our chatbot from a vendor. Can you still test it?</summary>
+            <p>Yes. Most tests run through the same chat window the public uses, so we don't need the vendor's code. Findings are written so you can send them straight to the vendor.</p>
           </details>
           <details>
             <summary>What will the red team agent not do?</summary>
-            <p>It never runs outside the targets and time window in your signed authorization. It does not run denial-of-service tests, touch real customer data on purpose, or keep any data it reaches. It stops at proof and reports.</p>
+            <p>It never runs outside the scope and time window you approve in writing. It doesn't use real resident or client data, run tests that could take your service down, or keep any data it reaches. It stops at proof and reports.</p>
           </details>
           <details>
-            <summary>Where do findings show up?</summary>
-            <p>In the tools your team already uses: your issue tracker, your CI checks and a Slack or Teams channel. Every finding links to its trace.</p>
+            <summary>Which rules does the report cover?</summary>
+            <p>Every report maps results to the NIST AI Risk Management Framework. We also note the state and local AI laws, accessibility rules and anti-discrimination obligations you tell us apply to you.</p>
           </details>
         </div>
       </div>
@@ -259,8 +288,8 @@
 
     <section class="closing">
       <div class="wrap closing-inner">
-        <h2>Tell us the one flow that keeps breaking.</h2>
-        <p>We'll start there, and show you an agent running it on the call.</p>
+        <h2>Putting AI in front of the public? Test it first.</h2>
+        <p>Bring one chatbot or AI tool to the call. We'll tell you what we would test.</p>
         <a class="btn" href="https://calendly.com/contact-blackscale/30min" target="_blank" rel="noopener">Book a 30-minute call</a>
       </div>
     </section>
