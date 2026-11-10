@@ -28,6 +28,7 @@
   </script>
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="wrap header-row">
       <a href="index.html" class="brand" aria-label="BlackScale home">
@@ -35,7 +36,7 @@
           <rect x="6" y="6" width="20" height="20" transform="rotate(45 16 16)" fill="none" stroke="var(--silver)" stroke-width="2.5"/>
           <rect x="10.5" y="10.5" width="11" height="11" transform="rotate(45 16 16)" fill="var(--accent)"/>
         </svg>
-        <span class="brand-word">BlackScale</span>
+        <span class="brand-word">BlackScale<span class="brand-sub">Digital</span></span>
       </a>
       <nav class="nav" aria-label="Legal"><a href="privacy.html">Privacy</a> <a href="terms.html">Terms</a> <a href="cookies.html" aria-current="page">Cookies</a></nav>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch color theme">
@@ -46,7 +47,7 @@
     </div>
   </header>
 
-  <main class="legal">
+  <main id="main" class="legal">
     <div class="wrap">
       <a class="back" href="index.html">← Back to home</a>
       <h1>Cookie Policy</h1>
@@ -59,7 +60,7 @@
 <p>This website does not set any cookies. It does not use analytics, advertising or tracking cookies. It stores one setting in your browser so it can remember whether you chose light or dark mode.</p>
 
 <h2>What we store in your browser</h2>
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens">
   <table>
     <thead><tr><th>Name</th><th>Type</th><th>Purpose</th><th>How long</th></tr></thead>
     <tbody>
@@ -72,7 +73,8 @@
 <h2>Third parties</h2>
 <ul>
   <li><b>Google Fonts.</b> The site loads its typefaces from Google. Google Fonts does not set cookies, but your browser sends Google your IP address and browser details when it fetches the fonts. See Google's privacy policy for how it handles that data.</li>
-  <li><b>Netlify.</b> Our hosting provider delivers the site and keeps standard server logs. It does not set tracking cookies on this site.</li>
+  <li><b>GitHub Pages.</b> Our hosting provider delivers the site and keeps standard server logs. It does not set tracking cookies on this site.</li>
+      <li><b>Formspree.</b> When you send the inquiry form, your answers go to Formspree, which delivers them to us by email. The form does not set cookies.</li>
   <li><b>Calendly.</b> When you click a "Book a call" link, you leave our site and go to Calendly. Calendly may set its own cookies, which are covered by Calendly's cookie policy.</li>
 </ul>
 

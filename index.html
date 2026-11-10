@@ -16,7 +16,7 @@
   <meta name="twitter:card" content="summary">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Caveat:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script>
     (function () {
@@ -28,6 +28,7 @@
   </script>
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
   <canvas id="traces" aria-hidden="true"></canvas>
 
   <!-- Shared avatar drawing. Accent comes from currentColor. -->
@@ -49,20 +50,25 @@
 
   <header class="site-header">
     <div class="wrap header-row">
-      <a href="#" class="brand" aria-label="BlackScale home">
+      <a href="index.html" class="brand" aria-label="BlackScale Digital home">
         <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
           <rect x="6" y="6" width="20" height="20" transform="rotate(45 16 16)" fill="none" stroke="var(--silver)" stroke-width="2.5"/>
           <rect x="10.5" y="10.5" width="11" height="11" transform="rotate(45 16 16)" fill="var(--accent)"/>
         </svg>
-        <span class="brand-word">BlackScale</span>
+        <span class="brand-word">BlackScale<span class="brand-sub">Digital</span></span>
       </a>
-      <nav class="nav" aria-label="Main">
+      <nav class="nav" id="siteNav" aria-label="Main">
         <a href="#live">Test run</a>
-        <a href="#who">Who it's for</a>
-        <a href="#agents">Agents</a>
         <a href="#process">How it works</a>
+        <a href="#about">About</a>
+        <a href="sample-report.html">Sample report</a>
         <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+        <a class="nav-book" href="https://calendly.com/contact-blackscale/30min" target="_blank" rel="noopener">Book a call</a>
       </nav>
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path class="m-open" d="M4 7h16M4 12h16M4 17h16"/><path class="m-close" d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch color theme">
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -71,18 +77,40 @@
     </div>
   </header>
 
-  <main>
+  <main id="main">
     <section class="hero">
-      <div class="wrap">
-        <p class="eyebrow">AI risk and compliance testing</p>
-        <h1>Your AI talks to the public. We test what it says.</h1>
-        <div class="hero-foot">
-          <p class="lede">BlackScale tests chatbots and AI tools for small and mid-size businesses, nonprofits and local governments. Our agents check that answers are correct, try to break the system the way an attacker would, and measure whether it treats everyone the same. You get findings to fix, and an evidence report you can hand to your board, your auditors or your council.</p>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="hero-kicker">AI testing for local governments, nonprofits and growing businesses</p>
+          <h1>Your AI talks to the public. We check what it says.</h1>
+          <p class="lede">We test your chatbots and AI tools for accuracy, security and fairness. You get findings your team can fix, and an evidence report your board, auditors or council can actually read.</p>
           <div class="hero-actions">
             <a class="btn" href="https://calendly.com/contact-blackscale/30min" target="_blank" rel="noopener">Book a 30-minute call</a>
-            <a class="btn btn-ghost" href="#live">Watch a test run</a>
+            <a class="btn btn-ghost" href="sample-report.html">See a sample report</a>
           </div>
+          <p class="hero-note">Based in Buffalo, NY. Seven years in federal contracting, local nonprofits and startups.</p>
         </div>
+
+        <figure class="record" aria-label="Example: a chatbot answer marked up by a BlackScale reviewer">
+          <figcaption class="record-head">
+            <span class="mono">Test record 0142</span>
+            <span>Riverton permit assistant · sample</span>
+          </figcaption>
+          <div class="record-body">
+            <p class="rq"><span class="who mono">Resident</span><span>Do I need a permit for a 12 × 12 ft shed?</span></p>
+            <p class="ra"><span class="who mono">Assistant</span><span>No permit is needed. Accessory sheds <del>under 200 sq ft</del> are exempt.</span></p>
+            <div class="pen-row" aria-hidden="true">
+              <svg class="pen-arrow" viewBox="0 0 64 32"><path d="M60 26 C 42 30, 20 24, 9 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 13 L9 5 L17 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="pen">120 sq ft max. See §14.2.3</span>
+            </div>
+            <p class="record-note"><b>Wrong in 4 of 4 phrasings.</b> A 12 × 12 shed is 144 sq ft and needs a permit. The answer came from a 2019 FAQ still loaded in the assistant.</p>
+          </div>
+          <dl class="record-meta">
+            <div><dt>Severity</dt><dd class="sev-text-high">High</dd></div>
+            <div><dt>Fix</dt><dd>Remove 2019 FAQ</dd></div>
+            <div><dt>Retest</dt><dd class="sev-text-ok">Passed Nov 3</dd></div>
+          </dl>
+        </figure>
       </div>
     </section>
 
@@ -124,10 +152,13 @@
                 <div class="agent-status"><span class="status-dot"></span><span id="agentStatus">Running</span> · <span class="mono" id="runTimer">00:00.0</span></div>
               </div>
             </div>
-            <div class="tabs" role="tablist" aria-label="Choose an agent">
+            <div class="console-controls">
+              <div class="tabs" role="tablist" aria-label="Choose an agent">
               <button role="tab" id="tab-qa" data-mode="qa" aria-selected="true">Probe <span>Accuracy</span></button>
               <button role="tab" id="tab-red" data-mode="red" aria-selected="false">Breach <span>Red</span></button>
               <button role="tab" id="tab-blue" data-mode="blue" aria-selected="false">Warden <span>Fairness</span></button>
+            </div>
+              <button class="motion-btn" type="button" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><g class="i-pause" fill="currentColor"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></g><path class="i-play" d="M4 2.5v11l9.5-5.5z" fill="currentColor"/></svg><span class="motion-label">Pause motion</span></button>
             </div>
           </div>
 
@@ -144,7 +175,7 @@
             </div>
             <div class="trace">
               <div class="trace-head mono"><span>Trace</span><span id="stepCount">0 / 0</span></div>
-              <ol class="log" id="log" aria-live="polite"></ol>
+              <ol class="log" id="log" aria-live="polite" tabindex="0" aria-label="Test trace"></ol>
             </div>
           </div>
 
@@ -242,7 +273,7 @@
       <div class="wrap">
         <div class="section-head">
           <h2>How it works</h2>
-          <p>A one-time baseline, then ongoing testing, because AI systems change when your documents, settings or vendor's model change.</p>
+          <p>Start with a one-time baseline. Most teams then keep us on monthly, because AI systems change whenever your documents, settings or vendor's model change. <a href="sample-report.html">See what a report looks like.</a></p>
         </div>
         <ol class="steps">
           <li>
@@ -252,7 +283,7 @@
           </li>
           <li>
             <span class="step-n mono">02</span>
-            <h3>Baseline test</h3>
+            <h3>Baseline test <span class="step-tag">One time</span></h3>
             <p>All three agents test one system for accuracy, security and fairness. You get findings ranked by impact.</p>
           </li>
           <li>
@@ -262,21 +293,26 @@
           </li>
           <li>
             <span class="step-n mono">04</span>
-            <h3>Ongoing assurance</h3>
-            <p>Monthly retests, alerts when something slips, and a quarterly evidence report.</p>
+            <h3>Ongoing assurance <span class="step-tag step-tag-main">Monthly</span></h3>
+            <p>Retests every month and after any change or vendor update, alerts when something slips, and a quarterly evidence report mapped to the NIST AI Risk Management Framework.</p>
           </li>
         </ol>
-        <div class="plans-grid">
-          <div class="offer">
-            <p class="offer-kicker">One time</p>
-            <h3>Baseline assessment</h3>
-            <p>A full accuracy, red team and fairness test of one AI system, a retest after fixes, and your first evidence report.</p>
-          </div>
-          <div class="offer main">
-            <p class="offer-kicker">Monthly</p>
-            <h3>Ongoing assurance</h3>
-            <p>Scheduled retests, retests after every change or vendor update, monthly summaries and a quarterly evidence report that maps results to the NIST AI Risk Management Framework.</p>
-          </div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="wrap about-grid">
+        <div class="section-head">
+          <h2>Who's behind BlackScale</h2>
+        </div>
+        <div class="about-body">
+          <p class="about-lead">BlackScale Digital is a small, independent practice in Buffalo, New York. It grew out of seven years of work in three places where software has to hold up to scrutiny on a tight budget.</p>
+          <dl class="about-list">
+            <div><dt>Federal contracts</dt><dd>Delivering work under formal requirements, reviews and documentation standards. That's where the evidence reports come from.</dd></div>
+            <div><dt>Local nonprofits</dt><dd>Helping small teams that serve their communities adopt new tools without a dedicated IT or security staff.</dd></div>
+            <div><dt>Startups</dt><dd>Building and shipping quickly, and learning where fast-moving products break.</dd></div>
+          </dl>
+          <p class="about-foot">You work directly with the person doing the testing. Every finding is reviewed by a person before it reaches you.</p>
         </div>
       </div>
     </section>
@@ -307,12 +343,138 @@
       </div>
     </section>
 
-    <section class="closing">
-      <div class="wrap closing-inner">
+    <section id="contact" class="closing">
+      <div class="wrap">
         <h2>Putting AI in front of the public? Test it first.</h2>
-        <p>Bring one chatbot or AI tool to the call. We'll tell you what we would test.</p>
-        <a class="btn" href="https://calendly.com/contact-blackscale/30min" target="_blank" rel="noopener">Book a 30-minute call</a>
-        <p class="contact-line">Or reach us directly at <a href="mailto:blackscaledigital1@gmail.com">blackscaledigital1@gmail.com</a> or <a href="tel:+17165909129">(716) 590-9129</a>.</p>
+        <div class="contact-grid">
+          <div class="contact-side">
+            <p class="contact-intro">Tell us about the AI system you use or plan to use. It takes about two minutes, and you don't need technical details.</p>
+            <ol class="next-steps">
+              <li><span><b>We reply within two business days</b> with a few questions or a time to talk.</span></li>
+              <li><span><b>A 30-minute scope call</b> to agree what to test and which rules apply.</span></li>
+              <li><span><b>A written proposal</b> with a fixed price for the baseline test.</span></li>
+            </ol>
+            <p class="contact-alt">Rather talk first? <a href="https://calendly.com/contact-blackscale/30min" target="_blank" rel="noopener">Book a 30-minute call</a> or call <a href="tel:+17165909129">(716) 590-9129</a>.</p>
+          </div>
+
+          <form class="intake" id="intake" novalidate data-endpoint="" data-email="blackscaledigital1@gmail.com">
+            <div class="form-row two">
+              <div class="field-wrap">
+                <label for="f-name">Your name <span class="req">required</span></label>
+                <input id="f-name" name="name" type="text" autocomplete="name" required>
+                <p class="err" id="f-name-err"></p>
+              </div>
+              <div class="field-wrap">
+                <label for="f-email">Work email <span class="req">required</span></label>
+                <input id="f-email" name="email" type="email" autocomplete="email" required>
+                <p class="err" id="f-email-err"></p>
+              </div>
+            </div>
+            <div class="form-row two">
+              <div class="field-wrap">
+                <label for="f-org">Organization <span class="req">required</span></label>
+                <input id="f-org" name="organization" type="text" autocomplete="organization" required>
+                <p class="err" id="f-org-err"></p>
+              </div>
+              <div class="field-wrap">
+                <label for="f-phone">Phone <span class="opt">optional</span></label>
+                <input id="f-phone" name="phone" type="tel" autocomplete="tel">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field-wrap">
+                <label for="f-type">Type of organization <span class="req">required</span></label>
+                <select id="f-type" name="organization_type" required>
+                  <option value="">Choose one</option>
+                  <option>Local government</option>
+                  <option>Nonprofit</option>
+                  <option>Small or mid-size business</option>
+                  <option>Other</option>
+                </select>
+                <p class="err" id="f-type-err"></p>
+              </div>
+            </div>
+
+            <fieldset class="form-row">
+              <legend>What kind of AI are you using? <span class="opt">choose any</span></legend>
+              <div class="checks">
+                <label class="check"><input type="checkbox" name="ai_systems" value="Public chatbot or virtual assistant"> <span>Public chatbot or virtual assistant</span></label>
+                <label class="check"><input type="checkbox" name="ai_systems" value="AI that helps make decisions about people"> <span>AI that helps decide about people (hiring, lending, housing, benefits)</span></label>
+                <label class="check"><input type="checkbox" name="ai_systems" value="Intake or document automation"> <span>Intake or document automation</span></label>
+                <label class="check"><input type="checkbox" name="ai_systems" value="Internal staff assistant"> <span>Internal assistant for staff</span></label>
+                <label class="check"><input type="checkbox" name="ai_systems" value="Not deployed yet"> <span>Not deployed yet, still planning</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-row">
+              <legend>Who built it? <span class="req">required</span></legend>
+              <div class="checks inline" id="f-built">
+                <label class="check"><input type="radio" name="built_by" value="A vendor" required> <span>A vendor</span></label>
+                <label class="check"><input type="radio" name="built_by" value="Our team"> <span>Our team</span></label>
+                <label class="check"><input type="radio" name="built_by" value="Not sure"> <span>Not sure</span></label>
+              </div>
+              <p class="err" id="f-built-err"></p>
+            </fieldset>
+
+            <fieldset class="form-row">
+              <legend>What do you need? <span class="opt">choose any</span></legend>
+              <div class="checks">
+                <label class="check"><input type="checkbox" name="needs" value="Accuracy testing"> <span>Check that answers are correct</span></label>
+                <label class="check"><input type="checkbox" name="needs" value="Red team / security"> <span>Security and data-leak testing</span></label>
+                <label class="check"><input type="checkbox" name="needs" value="Fairness testing"> <span>Fairness across languages and groups</span></label>
+                <label class="check"><input type="checkbox" name="needs" value="Ongoing monitoring and evidence reports"> <span>Ongoing testing and evidence reports</span></label>
+                <label class="check"><input type="checkbox" name="needs" value="Not sure yet"> <span>Not sure yet</span></label>
+              </div>
+            </fieldset>
+
+            <div class="form-row two">
+              <div class="field-wrap">
+                <label for="f-driver">What's prompting this?</label>
+                <select id="f-driver" name="driver">
+                  <option value="">Choose one</option>
+                  <option>Board or council request</option>
+                  <option>Upcoming launch</option>
+                  <option>Funder or grant requirement</option>
+                  <option>A law or regulation</option>
+                  <option>A complaint or incident</option>
+                  <option>Just being careful</option>
+                </select>
+              </div>
+              <div class="field-wrap">
+                <label for="f-time">Timeline</label>
+                <select id="f-time" name="timeline">
+                  <option value="">Choose one</option>
+                  <option>As soon as possible</option>
+                  <option>Within 3 months</option>
+                  <option>3 to 6 months</option>
+                  <option>Just exploring</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field-wrap">
+                <label for="f-msg">Anything else we should know? <span class="opt">optional</span></label>
+                <textarea id="f-msg" name="message" rows="4" placeholder="For example: the vendor's name, who uses the tool, or a problem you've already seen."></textarea>
+              </div>
+            </div>
+
+            <div class="hp" aria-hidden="true">
+              <label for="f-company-site">Leave this field empty</label>
+              <input id="f-company-site" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="form-row">
+              <label class="check consent"><input type="checkbox" id="f-consent" name="consent" value="yes" required> <span>BlackScale may contact me about this inquiry. See the <a href="privacy.html">Privacy Policy</a>.</span></label>
+              <p class="err" id="f-consent-err"></p>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn" type="submit" id="f-submit">Send inquiry</button>
+              <p class="form-status" id="f-status" role="status" aria-live="polite"></p>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
   </main>
@@ -320,6 +482,7 @@
   <footer class="site-footer">
     <div class="wrap footer-row">
       <span>© 2026 BlackScale Digital</span>
+      <button class="motion-btn" type="button" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><g class="i-pause" fill="currentColor"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></g><path class="i-play" d="M4 2.5v11l9.5-5.5z" fill="currentColor"/></svg><span class="motion-label">Pause motion</span></button>
       <span class="footer-links"><a href="privacy.html">Privacy</a> <a href="terms.html">Terms</a> <a href="cookies.html">Cookies</a></span>
       <span class="footer-contact">
         <a href="mailto:blackscaledigital1@gmail.com">blackscaledigital1@gmail.com</a>
