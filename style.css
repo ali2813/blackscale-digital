@@ -439,6 +439,10 @@ section { padding-block: clamp(56px, 8vw, 104px); }
 .closing p { color: var(--muted); font-size: var(--step-1); margin-bottom: 12px; }
 
 .site-footer { border-top: 1px solid var(--line); }
+.footer-contact { display: flex; flex-wrap: wrap; gap: 8px 20px; font-family: var(--f-mono); font-size: 0.8125rem; }
+.footer-contact a, .contact-line a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--line-strong); }
+.footer-contact a:hover, .contact-line a:hover { border-color: var(--accent); }
+.closing p.contact-line { font-size: var(--step-0); margin: 12px 0 0; overflow-wrap: anywhere; }
 .footer-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-block: 24px max(24px, env(safe-area-inset-bottom, 0px)); color: var(--muted); font-size: 0.875rem; }
 
 /* ---------- Responsive ---------- */
