@@ -240,8 +240,12 @@
     finding.hidden = false;
     clearInterval(tick);
     lookAt(window.innerWidth / 2, window.innerHeight);
+    timers = [];
     if (autoAdvance) {
-      later(() => run(ORDER[(ORDER.indexOf(mode) + 1) % ORDER.length]), 7000);
+      later(() => {
+        if (typeof visible === 'undefined' || visible) run(ORDER[(ORDER.indexOf(mode) + 1) % ORDER.length]);
+        else timers = [];
+      }, 7000);
     }
   }
 
@@ -292,7 +296,38 @@
     });
   });
 
-  run('qa');
+  // Start the run when the console scrolls into view, and replay it from the
+  // start if someone comes back to it after it has finished.
+  let started = false;
+  let visible = false;
+  if (reduced || !('IntersectionObserver' in window)) {
+    run('qa');
+  } else {
+    setMode('qa');
+    statusEl.textContent = 'Ready';
+    const io = new IntersectionObserver((entries) => {
+      visible = entries[0].isIntersecting;
+      if (!visible) return;
+      if (!started) { started = true; run(mode); }
+      else if (consoleEl.classList.contains('done') && !timers.length) run(mode);
+    }, { threshold: 0.35 });
+    io.observe(consoleEl);
+  }
+})();
+
+/* ---------- Mobile menu ---------- */
+(() => {
+  const btn = document.getElementById('menuBtn');
+  const nav = document.getElementById('siteNav');
+  if (!btn || !nav) return;
+  const set = (open) => {
+    nav.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open);
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+  btn.addEventListener('click', () => set(!nav.classList.contains('open')));
+  nav.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
 })();
 
 /* ---------- Theme toggle ---------- */
