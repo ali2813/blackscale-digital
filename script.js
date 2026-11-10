@@ -662,7 +662,11 @@ window.bsMotion = (() => {
     data.append('_subject', `AI testing inquiry from ${data.get('organization')}`);
     try {
       const res = await fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
-      if (!res.ok) throw new Error(String(res.status));
+      if (!res.ok) {
+        // Formspree explains rejections as { errors: [{ message }] }; show the first one.
+        const body = await res.json().catch(() => ({}));
+        throw new Error((body.errors && body.errors[0] && body.errors[0].message) || '');
+      }
       form.classList.add('sent');
       status.className = 'form-status ok';
       status.textContent = 'Thanks. Your inquiry was sent. We\'ll reply within two business days.';
@@ -670,7 +674,7 @@ window.bsMotion = (() => {
       status.focus();
     } catch (err) {
       status.className = 'form-status bad';
-      status.textContent = `Your inquiry didn't send. Please try again, or email ${form.dataset.email}.`;
+      status.textContent = `Your inquiry didn't send${err.message ? ` (${err.message})` : ''}. Please try again, or email ${form.dataset.email}.`;
       submit.disabled = false;
     }
   });
