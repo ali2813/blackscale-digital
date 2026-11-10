@@ -1,331 +1,321 @@
-/* ============================================
-   BlackScale Digital Solutions — Script
-   Animated Wave Canvas + Particles + UI Logic
-   ============================================ */
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const consoleEl = $('#console');
+  if (!consoleEl) return;
 
-(function() {
-    'use strict';
+  const screen = $('#screen');
+  const viewport = $('.viewport');
+  const cursor = $('#cursor');
+  const log = $('#log');
+  const finding = $('#finding');
+  const avatar = $('#avatarLive');
+  const eyes = $('#eyes');
+  const timerEl = $('#runTimer');
+  const statusEl = $('#agentStatus');
+  const stepCount = $('#stepCount');
+  const tabs = [...document.querySelectorAll('.tabs button')];
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // ============================================
-    // Wave Canvas Animation
-    // ============================================
-    const waveCanvas = document.getElementById('waveCanvas');
-    const wCtx = waveCanvas.getContext('2d');
+  const v = (key) => screen.querySelector(`[data-v="${key}"]`);
+  const t = (key) => screen.querySelector(`[data-t="${key}"]`);
 
-    function resizeWaveCanvas() {
-        waveCanvas.width = window.innerWidth;
-        waveCanvas.height = window.innerHeight;
-    }
-    resizeWaveCanvas();
+  const evRow = (time, code, text, flag = false) =>
+    `<div class="ev${flag ? ' flag' : ''}"><span>${time}</span><span>${code}</span><span class="p">${text}</span></div>`;
 
-    const waves = [
-        { y: 0.65, length: 0.008, amplitude: 60, speed: 0.015, color: 'rgba(108, 63, 255, 0.08)', offset: 0 },
-        { y: 0.70, length: 0.006, amplitude: 45, speed: 0.012, color: 'rgba(0, 212, 255, 0.06)', offset: 2 },
-        { y: 0.75, length: 0.010, amplitude: 35, speed: 0.018, color: 'rgba(255, 60, 172, 0.05)', offset: 4 },
-        { y: 0.55, length: 0.005, amplitude: 50, speed: 0.010, color: 'rgba(108, 63, 255, 0.04)', offset: 6 },
-        { y: 0.80, length: 0.012, amplitude: 25, speed: 0.020, color: 'rgba(0, 212, 255, 0.04)', offset: 1 },
-    ];
+  const MODES = {
+    qa: {
+      name: 'Probe',
+      role: 'Reliability QA',
+      url: 'staging.ledgerline.app/settings/billing',
+      screen: `
+        <div class="app">
+          <div class="app-side">
+            <div class="app-logo">Ledgerline</div>
+            <span>Overview</span><span>Invoices</span><span class="on">Billing</span><span>Team</span>
+          </div>
+          <div class="app-main">
+            <h4>Plan and billing</h4>
+            <div class="plans">
+              <div class="plan sel" data-t="starter"><b>Starter</b><small>$12 / seat / mo</small></div>
+              <div class="plan" data-t="team"><b>Team</b><small>$24 / seat / mo</small></div>
+            </div>
+            <div class="row2">
+              <div class="field">Seats<div class="input" data-t="seats" data-v="seats">8</div></div>
+              <div class="field">Coupon<div class="input" data-t="coupon" data-v="coupon"></div></div>
+            </div>
+            <div class="summary" data-t="summary"><span>Due today (prorated)</span><b data-v="total">$48.00</b></div>
+            <div class="app-btn" data-t="confirm">Confirm upgrade</div>
+          </div>
+        </div>`,
+      steps: [
+        { k: 'info', msg: 'Sign in as owner@acme-test.dev (seeded test account)' },
+        { k: 'ok', msg: 'Billing page loaded in 412 ms, 0 console errors' },
+        { k: 'act', to: 'team', msg: 'Select plan Team ($24 / seat)', act() {
+          t('starter').classList.remove('sel'); t('team').classList.add('sel'); v('total').textContent = '$96.00';
+        } },
+        { k: 'act', to: 'coupon', msg: 'Apply coupon LAUNCH20', act() {
+          v('coupon').innerHTML = 'LAUNCH20<span class="chip-coupon" data-v="chip">−20%</span>'; v('total').textContent = '$76.80';
+        } },
+        { k: 'ok', to: 'summary', msg: '8 seats × $24, 15 of 30 days left, 20% off = $76.80. Matches.' },
+        { k: 'act', to: 'seats', msg: 'Change seats from 8 to 12', act() {
+          v('seats').textContent = '12'; v('total').textContent = '$144.00'; v('chip')?.classList.add('gone');
+        } },
+        { k: 'fail', to: 'summary', msg: 'Due today shows $144.00, expected $115.20. Coupon dropped after the seat change.' },
+        { k: 'act', to: 'confirm', msg: 'Confirm upgrade. POST /api/subscription → 200' },
+        { k: 'fail', msg: 'Invoice INV-2291 charged $144.00. Customer overbilled by $28.80.' },
+        { k: 'info', msg: 'Bisected: passes on 7e02b1f, fails on a41c9e2' },
+      ],
+      done: 'Finding filed',
+      finding: `
+        <div class="finding-title">
+          <span class="sev sev-med">Medium · regression</span>
+          <h3>Coupon is removed when the seat count changes before an upgrade</h3>
+          <div class="finding-meta"><span>Deploy a41c9e2</span><span>Last good 7e02b1f</span><span>Video trace 0:38</span></div>
+        </div>
+        <div>
+          <ol>
+            <li>Sign in as an owner on the Starter plan</li>
+            <li>Select Team and apply coupon LAUNCH20</li>
+            <li>Change seats from 8 to 12</li>
+            <li>Due today shows $144.00 instead of $115.20</li>
+          </ol>
+        </div>`,
+    },
 
-    let waveTime = 0;
+    red: {
+      name: 'Breach',
+      role: 'Red team',
+      url: 'staging.ledgerline.app/api  ·  authorized run BSC-114',
+      screen: `
+        <div class="req">
+          <div class="req-scope"><span>scope: staging.ledgerline.app</span><span>window 02:00–04:00 UTC</span><span>auth BSC-114</span></div>
+          <div class="req-box" data-t="req">
+            <div><span class="m" data-v="method">GET</span><span data-v="path">/api/session</span></div>
+            <div class="dim">Authorization: Bearer ‹tenant A session›</div>
+          </div>
+          <div class="req-box" data-t="resp">
+            <div>Response <span class="code" data-v="code">—</span></div>
+            <pre class="resp-body" data-v="body">waiting for request</pre>
+          </div>
+        </div>`,
+      steps: [
+        { k: 'info', msg: 'Loaded scope BSC-114: staging only, tenants A and B are test accounts' },
+        { k: 'act', to: 'req', msg: 'Send 11 logins with a wrong password', act() {
+          req('POST', '/api/login', 429, true, '{ "error": "too_many_attempts",\n  "retry_after": 60 }');
+        } },
+        { k: 'ok', to: 'resp', msg: 'Rate limit holds: 429 after 10 attempts' },
+        { k: 'act', to: 'req', msg: 'Request own invoice INV-2291 as tenant A', act() {
+          req('GET', '/api/invoices/INV-2291', 200, true, '{ "id": "INV-2291",\n  "tenant": "acme-test",\n  "total": "144.00" }');
+        } },
+        { k: 'ok', to: 'resp', msg: '200, invoice owner matches the session' },
+        { k: 'act', to: 'req', msg: 'Change the id to INV-2290, keep the same session', act() {
+          req('GET', '/api/invoices/INV-2290', 200, false,
+            '{ "id": "INV-2290",\n  "tenant": "<span class="leak">globex-test</span>",\n  "email": "<span class="leak">billing@globex-test.dev</span>",\n  "card_last4": "<span class="leak">4242</span>" }');
+        } },
+        { k: 'fail', to: 'resp', msg: 'Tenant A can read tenant B\'s invoice. Object-level authorization is missing.' },
+        { k: 'act', to: 'req', msg: 'Set company name to a script tag payload', act() {
+          req('PATCH', '/api/company', 200, true, '{ "name": "&lt;script&gt;alert(1)&lt;/script&gt;" }');
+        } },
+        { k: 'ok', to: 'resp', msg: 'Payload is escaped on every page that renders it' },
+        { k: 'info', msg: 'Stopped at proof. Response kept as evidence, no data retained.' },
+      ],
+      done: 'Finding filed',
+      finding: `
+        <div class="finding-title">
+          <span class="sev sev-high">High · tenant isolation</span>
+          <h3>Invoice API returns other tenants' invoices when the id is changed</h3>
+          <div class="finding-meta"><span>CWE-639</span><span>OWASP API1:2023</span><span>Found 02:14 UTC</span></div>
+        </div>
+        <div class="fix">
+          <p><b>Fix:</b> look up invoices by id and the tenant from the session, never by id alone.</p>
+          <p style="margin-top:8px">Sent to Warden to build a detection for this pattern.</p>
+        </div>`,
+    },
 
-    function drawWaves() {
-        wCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+    blue: {
+      name: 'Warden',
+      role: 'Blue team',
+      url: 'logs · ledgerline-staging · api-gateway',
+      screen: `
+        <div class="events">
+          <div class="ev-table" data-t="table" data-v="rows">
+            ${evRow('02:13:58', '200', 'GET /api/session · tenant=acme-test')}
+            ${evRow('02:14:02', '200', 'GET /api/invoices/INV-2291 · tenant=acme-test')}
+          </div>
+          <div class="rule-label">Detection draft</div>
+          <div class="rule" data-t="rule" data-v="rule">// waiting for a pattern worth a rule</div>
+        </div>`,
+      steps: [
+        { k: 'info', msg: 'Tailing auth, API and gateway logs' },
+        { k: 'act', to: 'table', msg: 'New event from 203.0.113.24', act() {
+          v('rows').insertAdjacentHTML('beforeend', evRow('02:14:07', '200', 'GET /api/invoices/INV-2290 · tenant=acme-test · owner=globex-test', true));
+        } },
+        { k: 'warn', to: 'table', msg: 'Session for acme-test read an invoice owned by globex-test' },
+        { k: 'ok', msg: 'Matched to Breach run BSC-114 inside its window. Logged, nobody paged.' },
+        { k: 'act', to: 'rule', msg: 'Draft rule: invoice tenant differs from session tenant', act() {
+          v('rule').innerHTML =
+`<span class="k">when</span> path matches "/api/invoices/*"
+ <span class="k">and</span> status = 200
+ <span class="k">and</span> invoice.tenant != session.tenant
+<span class="k">then</span> alert severity=high route=#sec-oncall`;
+        } },
+        { k: 'ok', to: 'rule', msg: 'Backtest on 30 days of logs: 1 hit (this run), 0 false positives' },
+        { k: 'ok', msg: 'Rule DET-031 is live. Alerts route to #sec-oncall' },
+      ],
+      done: 'Detection shipped',
+      finding: `
+        <div class="finding-title">
+          <span class="sev sev-ok">Detection added</span>
+          <h3>Cross-tenant invoice reads now page on-call</h3>
+          <div class="finding-meta"><span>Rule DET-031</span><span>From Breach BSC-114</span><span>Backtested 30 days</span></div>
+        </div>
+        <div class="fix">
+          <p>If this request had come from a real attacker, on-call would have been paged within a minute.</p>
+        </div>`,
+    },
+  };
 
-        // Background gradient
-        const bgGrad = wCtx.createRadialGradient(
-            waveCanvas.width * 0.3, waveCanvas.height * 0.3, 0,
-            waveCanvas.width * 0.5, waveCanvas.height * 0.5, waveCanvas.width * 0.8
-        );
-        bgGrad.addColorStop(0, 'rgba(108, 63, 255, 0.03)');
-        bgGrad.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
-        bgGrad.addColorStop(1, 'rgba(0, 212, 255, 0.02)');
-        wCtx.fillStyle = bgGrad;
-        wCtx.fillRect(0, 0, waveCanvas.width, waveCanvas.height);
+  function req(method, path, code, ok, body) {
+    v('method').textContent = method;
+    v('path').textContent = path;
+    const c = v('code');
+    c.textContent = code;
+    c.className = 'code ' + (ok ? 'ok' : 'bad');
+    v('body').innerHTML = body;
+  }
 
-        waves.forEach(wave => {
-            wCtx.beginPath();
-            wCtx.moveTo(0, waveCanvas.height);
+  const TAGS = { info: 'INFO', act: 'ACT', ok: 'PASS', warn: 'WARN', fail: 'FAIL' };
+  const ORDER = ['qa', 'red', 'blue'];
 
-            for (let x = 0; x <= waveCanvas.width; x += 2) {
-                const y = waveCanvas.height * wave.y +
-                    Math.sin(x * wave.length + waveTime * wave.speed + wave.offset) * wave.amplitude +
-                    Math.sin(x * wave.length * 0.5 + waveTime * wave.speed * 0.8 + wave.offset * 1.5) * wave.amplitude * 0.5;
-                wCtx.lineTo(x, y);
-            }
+  let mode = 'qa';
+  let i = 0;
+  let t0 = 0;
+  let timers = [];
+  let tick = null;
+  let autoAdvance = !reduced;
 
-            wCtx.lineTo(waveCanvas.width, waveCanvas.height);
-            wCtx.closePath();
-            wCtx.fillStyle = wave.color;
-            wCtx.fill();
-        });
+  const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+  const clearAll = () => { timers.forEach(clearTimeout); timers = []; clearInterval(tick); };
+  const fmt = (ms) => {
+    const s = ms / 1000;
+    return `${String(Math.floor(s / 60)).padStart(2, '0')}:${(s % 60).toFixed(1).padStart(4, '0')}`;
+  };
 
-        waveTime += 1;
-        requestAnimationFrame(drawWaves);
-    }
+  function lookAt(x, y) {
+    const r = avatar.getBoundingClientRect();
+    const dx = Math.max(-1, Math.min(1, (x - (r.left + r.width / 2)) / 260));
+    const dy = Math.max(-1, Math.min(1, (y - (r.top + r.height / 2)) / 260));
+    eyes.style.transform = `translate(${dx * 6}px, ${dy * 4}px)`;
+  }
 
-    drawWaves();
+  function moveCursorTo(el) {
+    const vr = viewport.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    const x = r.left - vr.left + Math.min(r.width * 0.6, 120);
+    const y = r.top - vr.top + r.height * 0.55;
+    cursor.style.transform = `translate(${x}px, ${y}px)`;
+    lookAt(vr.left + x, vr.top + y);
+  }
 
-    // ============================================
-    // Particle Canvas Animation
-    // ============================================
-    const particleCanvas = document.getElementById('particleCanvas');
-    const pCtx = particleCanvas.getContext('2d');
+  function addLine(step, elapsed) {
+    log.querySelector('.cur')?.classList.remove('cur');
+    const li = document.createElement('li');
+    li.className = `l-${step.k} cur`;
+    li.innerHTML = `<span class="ts">${fmt(elapsed)}</span><span class="tag">${TAGS[step.k]}</span><span class="msg"></span>`;
+    li.querySelector('.msg').textContent = step.msg;
+    log.appendChild(li);
+    log.scrollTop = log.scrollHeight;
+    stepCount.textContent = `${log.children.length} / ${MODES[mode].steps.length}`;
+  }
 
-    function resizeParticleCanvas() {
-        particleCanvas.width = window.innerWidth;
-        particleCanvas.height = window.innerHeight;
-    }
-    resizeParticleCanvas();
+  function talk(isAlarm) {
+    avatar.classList.add('talk');
+    if (isAlarm) avatar.classList.add('alarm');
+    later(() => avatar.classList.remove('talk', 'alarm'), 900);
+  }
 
-    class Particle {
-        constructor() {
-            this.reset();
-        }
-
-        reset() {
-            this.x = Math.random() * particleCanvas.width;
-            this.y = Math.random() * particleCanvas.height;
-            this.size = Math.random() * 2 + 0.5;
-            this.speedX = (Math.random() - 0.5) * 0.3;
-            this.speedY = (Math.random() - 0.5) * 0.3;
-            this.opacity = Math.random() * 0.5 + 0.1;
-            this.opacitySpeed = (Math.random() - 0.5) * 0.005;
-            this.hue = Math.random() > 0.5 ? 260 : 190; // purple or cyan
-        }
-
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            this.opacity += this.opacitySpeed;
-
-            if (this.opacity <= 0.05 || this.opacity >= 0.6) {
-                this.opacitySpeed *= -1;
-            }
-
-            if (this.x < -10 || this.x > particleCanvas.width + 10 ||
-                this.y < -10 || this.y > particleCanvas.height + 10) {
-                this.reset();
-            }
-        }
-
-        draw() {
-            pCtx.beginPath();
-            pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            pCtx.fillStyle = `hsla(${this.hue}, 80%, 65%, ${this.opacity})`;
-            pCtx.fill();
-        }
-    }
-
-    const particleCount = Math.min(80, Math.floor(window.innerWidth / 20));
-    const particles = Array.from({ length: particleCount }, () => new Particle());
-
-    function drawParticles() {
-        pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
-
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
-
-        // Draw connection lines between close particles
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-
-                if (dist < 120) {
-                    pCtx.beginPath();
-                    pCtx.moveTo(particles[i].x, particles[i].y);
-                    pCtx.lineTo(particles[j].x, particles[j].y);
-                    pCtx.strokeStyle = `rgba(108, 63, 255, ${0.06 * (1 - dist / 120)})`;
-                    pCtx.lineWidth = 0.5;
-                    pCtx.stroke();
-                }
-            }
-        }
-
-        requestAnimationFrame(drawParticles);
-    }
-
-    drawParticles();
-
-    // Handle resize
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            resizeWaveCanvas();
-            resizeParticleCanvas();
-        }, 150);
+  function setMode(m) {
+    mode = m;
+    const cfg = MODES[m];
+    consoleEl.dataset.mode = m;
+    consoleEl.classList.remove('done');
+    tabs.forEach((b) => {
+      const on = b.dataset.mode === m;
+      b.setAttribute('aria-selected', on);
+      b.tabIndex = on ? 0 : -1;
     });
+    $('#agentName').textContent = cfg.name;
+    $('#agentRole').textContent = cfg.role;
+    $('#vpUrl').textContent = cfg.url;
+    screen.innerHTML = cfg.screen;
+    log.innerHTML = '';
+    finding.hidden = true;
+    finding.innerHTML = cfg.finding;
+    statusEl.textContent = 'Running';
+    stepCount.textContent = `0 / ${cfg.steps.length}`;
+    timerEl.textContent = fmt(0);
+    eyes.style.transform = '';
+  }
 
-    // ============================================
-    // Navbar Scroll Effect
-    // ============================================
-    const navbar = document.getElementById('navbar');
+  function finish() {
+    const cfg = MODES[mode];
+    log.querySelector('.cur')?.classList.remove('cur');
+    consoleEl.classList.add('done');
+    statusEl.textContent = cfg.done;
+    finding.hidden = false;
+    clearInterval(tick);
+    lookAt(window.innerWidth / 2, window.innerHeight);
+    if (autoAdvance) {
+      later(() => run(ORDER[(ORDER.indexOf(mode) + 1) % ORDER.length]), 7000);
+    }
+  }
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-
-    // ============================================
-    // Mobile Navigation Toggle
-    // ============================================
-    const mobileToggle = document.getElementById('mobileToggle');
-    const navLinks = document.querySelector('.nav-links');
-
-    mobileToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        mobileToggle.classList.toggle('active');
-    });
-
-    // Close mobile menu when a link is clicked
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-            mobileToggle.classList.remove('active');
-        });
-    });
-
-    // ============================================
-    // Scroll Animations (Intersection Observer)
-    // ============================================
-    const animatedElements = document.querySelectorAll('[data-animate]');
-
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+  function runStep() {
+    const cfg = MODES[mode];
+    const step = cfg.steps[i];
+    const el = step.to ? t(step.to) : null;
+    const go = () => {
+      screen.querySelectorAll('.hot').forEach((n) => n.classList.remove('hot'));
+      if (el) {
+        el.classList.add('hot');
+        cursor.classList.remove('click'); void cursor.offsetWidth;
+        if (step.k === 'act') cursor.classList.add('click');
+      } else {
+        const lr = log.getBoundingClientRect();
+        lookAt(lr.left + lr.width / 2, lr.bottom);
+      }
+      step.act?.();
+      addLine(step, performance.now() - t0);
+      talk(step.k === 'fail' || step.k === 'warn');
+      i += 1;
+      if (i < cfg.steps.length) later(runStep, step.k === 'fail' ? 1700 : 1150);
+      else later(finish, 900);
     };
+    if (el) { moveCursorTo(el); later(go, 700); } else go();
+  }
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const delay = entry.target.getAttribute('data-delay') || 0;
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, parseInt(delay));
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    animatedElements.forEach(el => observer.observe(el));
-
-    // ============================================
-    // Counter Animation
-    // ============================================
-    const counters = document.querySelectorAll('[data-count]');
-
-    const counterObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const el = entry.target;
-                const target = parseInt(el.getAttribute('data-count'));
-                const duration = 2000;
-                const startTime = performance.now();
-
-                function updateCounter(currentTime) {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-
-                    // Ease out cubic
-                    const eased = 1 - Math.pow(1 - progress, 3);
-                    const current = Math.round(eased * target);
-
-                    el.textContent = current.toLocaleString();
-
-                    if (progress < 1) {
-                        requestAnimationFrame(updateCounter);
-                    }
-                }
-
-                requestAnimationFrame(updateCounter);
-                counterObserver.unobserve(el);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    counters.forEach(counter => counterObserver.observe(counter));
-
-    // ============================================
-    // Smooth Scroll for Anchor Links
-    // ============================================
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 80;
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // ============================================
-    // Contact Form Handler
-    // ============================================
-    const contactForm = document.getElementById('contactForm');
-
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const btn = this.querySelector('button[type="submit"]');
-        const originalHTML = btn.innerHTML;
-
-        btn.innerHTML = '<span>Sending...</span>';
-        btn.disabled = true;
-        btn.style.opacity = '0.7';
-
-        // Simulated send
-        setTimeout(() => {
-            btn.innerHTML = '<span>✓ Message Sent!</span>';
-            btn.style.background = 'linear-gradient(135deg, #28c840 0%, #00d4ff 100%)';
-
-            setTimeout(() => {
-                btn.innerHTML = originalHTML;
-                btn.disabled = false;
-                btn.style.opacity = '1';
-                btn.style.background = '';
-                contactForm.reset();
-            }, 3000);
-        }, 1500);
-    });
-
-    // ============================================
-    // Magnetic Effect on Service Cards (Desktop)
-    // ============================================
-    if (window.innerWidth > 768) {
-        document.querySelectorAll('.service-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const glow = card.querySelector('.card-glow');
-                if (glow) {
-                    glow.style.left = `${x - rect.width}px`;
-                    glow.style.top = `${y - rect.height}px`;
-                    glow.style.opacity = '1';
-                }
-            });
-
-            card.addEventListener('mouseleave', () => {
-                const glow = card.querySelector('.card-glow');
-                if (glow) {
-                    glow.style.opacity = '0';
-                }
-            });
-        });
+  function run(m) {
+    clearAll();
+    setMode(m);
+    if (reduced) {
+      MODES[m].steps.forEach((s, n) => { s.act?.(); addLine(s, n * 1200); });
+      finish();
+      return;
     }
+    i = 0;
+    t0 = performance.now();
+    tick = setInterval(() => { timerEl.textContent = fmt(performance.now() - t0); }, 100);
+    later(runStep, 500);
+  }
 
+  tabs.forEach((b, idx) => {
+    b.addEventListener('click', () => { autoAdvance = false; run(b.dataset.mode); });
+    b.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const next = tabs[(idx + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      next.focus(); next.click();
+    });
+  });
+
+  run('qa');
 })();
