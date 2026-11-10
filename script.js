@@ -294,3 +294,219 @@
 
   run('qa');
 })();
+
+/* ---------- Theme toggle ---------- */
+(() => {
+  const root = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  const media = window.matchMedia('(prefers-color-scheme: light)');
+  let stored = null;
+  try { stored = localStorage.getItem('bs-theme'); } catch (e) {}
+  if (!root.dataset.theme) root.dataset.theme = stored || (media.matches ? 'light' : 'dark');
+
+  const label = () => btn && btn.setAttribute('aria-label', root.dataset.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+  label();
+
+  btn?.addEventListener('click', () => {
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('bs-theme', root.dataset.theme); } catch (e) {}
+    label();
+  });
+  media.addEventListener?.('change', (e) => {
+    let s = null;
+    try { s = localStorage.getItem('bs-theme'); } catch (err) {}
+    if (!s) { root.dataset.theme = e.matches ? 'light' : 'dark'; label(); }
+  });
+})();
+
+/* ---------- Background: circuit traces that route like snakes ---------- */
+(() => {
+  const cv = document.getElementById('traces');
+  if (!cv || !cv.getContext) return;
+  const ctx = cv.getContext('2d');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const CELL = 28;
+  const DIRS = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]];
+  const key = (x, y) => x * 4096 + y;
+  const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+
+  let W = 0, H = 0, cols = 0, rows = 0, want = 0;
+  let pads = [], snakes = [], occ = new Map(), colors = {};
+
+  function readColors() {
+    const cs = getComputedStyle(document.documentElement);
+    const g = (n) => cs.getPropertyValue(n).trim();
+    colors = { a: g('--accent'), b: g('--teal'), pad: g('--line-strong') };
+  }
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cols = Math.ceil(W / CELL); rows = Math.ceil(H / CELL);
+    occ.clear(); snakes = []; pads = [];
+    const n = Math.max(8, Math.min(44, Math.round((cols * rows) / 60)));
+    for (let i = 0; i < n; i++) pads.push({ x: rnd(1, cols - 2), y: rnd(1, rows - 2), flash: 0, col: colors.a });
+    want = Math.max(5, Math.min(24, Math.round((W * H) / 60000)));
+  }
+
+  function spawn() {
+    if (pads.length < 2) return;
+    const from = pads[rnd(0, pads.length - 1)];
+    let to = from, tries = 0;
+    while ((to === from || Math.abs(to.x - from.x) + Math.abs(to.y - from.y) < 8) && tries++ < 20) to = pads[rnd(0, pads.length - 1)];
+    if (to === from) return;
+    const k = Math.random() < 0.72 ? 'a' : 'b';
+    snakes.push({
+      pts: [[from.x, from.y]], cells: [], dir: null, target: to,
+      head: 0, tail: 0, t: 0, len: rnd(8, 18),
+      speed: 7 + Math.random() * 6, state: 'run', fade: 1,
+      col: colors[k], key: k,
+    });
+  }
+
+  function nextDir(s) {
+    const [hx, hy] = s.pts[s.pts.length - 1];
+    const dx = Math.sign(s.target.x - hx), dy = Math.sign(s.target.y - hy);
+    const free = (d) => {
+      if (!d) return false;
+      const nx = hx + d[0], ny = hy + d[1];
+      if (nx < 0 || ny < 0 || nx >= cols || ny >= rows) return false;
+      if (nx === s.target.x && ny === s.target.y) return true;
+      return !occ.has(key(nx, ny));
+    };
+    const toward = [];
+    if (dx && dy) toward.push(Math.random() < 0.35 ? [dx, dy] : null);
+    if (s.dir && s.dir[0] * dx + s.dir[1] * dy > 0 && Math.random() < 0.8) toward.unshift(s.dir);
+    const orth = [dx ? [dx, 0] : null, dy ? [0, dy] : null];
+    if (Math.random() < 0.5) orth.reverse();
+    toward.push(...orth);
+    if (Math.random() < 0.12 && s.dir) toward.unshift([-s.dir[1], s.dir[0]], [s.dir[1], -s.dir[0]]);
+    for (const d of toward) if (free(d)) return d;
+    const rest = DIRS.filter((d) => !s.dir || d[0] !== -s.dir[0] || d[1] !== -s.dir[1]).sort(() => Math.random() - 0.5);
+    for (const d of rest) if (free(d)) return d;
+    return null;
+  }
+
+  function advance(s) {
+    const [hx, hy] = s.pts[s.pts.length - 1];
+    if (hx === s.target.x && hy === s.target.y) { s.state = 'drain'; s.target.flash = 1; s.target.col = s.col; return; }
+    if (s.pts.length > 160) { s.state = 'drain'; return; }
+    const d = nextDir(s);
+    if (!d) { s.state = 'drain'; return; }
+    s.dir = d;
+    const p = [hx + d[0], hy + d[1]];
+    s.pts.push(p);
+    const k = key(p[0], p[1]);
+    occ.set(k, (occ.get(k) || 0) + 1);
+    s.cells.push(k);
+  }
+
+  function release(s) {
+    for (const k of s.cells) { const c = occ.get(k) - 1; c > 0 ? occ.set(k, c) : occ.delete(k); }
+  }
+
+  function update(dt) {
+    let running = 0;
+    for (const s of snakes) {
+      if (s.state === 'run') {
+        running++;
+        s.t += s.speed * dt;
+        while (s.t >= 1 && s.state === 'run') { s.t -= 1; advance(s); }
+        s.head = s.state === 'run' ? Math.min(s.pts.length - 1, s.pts.length - 2 + s.t) : s.pts.length - 1;
+        s.tail = Math.max(0, s.head - s.len);
+      } else if (s.state === 'drain') {
+        s.head = s.pts.length - 1;
+        s.tail += s.speed * dt;
+        if (s.tail >= s.head) s.state = 'fade';
+      } else {
+        s.fade -= dt / 3.5;
+      }
+    }
+    snakes = snakes.filter((s) => { if (s.fade <= 0) { release(s); return false; } return true; });
+    if (running < want && Math.random() < dt * 4) spawn();
+    for (const p of pads) if (p.flash > 0) p.flash = Math.max(0, p.flash - dt * 0.9);
+  }
+
+  const X = (v) => v * CELL + CELL / 2;
+  function at(s, f) {
+    const i = Math.floor(f), j = Math.min(s.pts.length - 1, i + 1), u = f - i;
+    const a = s.pts[i], b = s.pts[j];
+    return [X(a[0] + (b[0] - a[0]) * u), X(a[1] + (b[1] - a[1]) * u)];
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+
+    for (const s of snakes) {
+      s.col = colors[s.key];
+      ctx.strokeStyle = s.col;
+      // etched route left behind
+      ctx.globalAlpha = 0.22 * s.fade;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      const end = s.state === 'run' ? Math.floor(s.head) : s.pts.length - 1;
+      for (let i = 0; i <= end; i++) { const [x, y] = [X(s.pts[i][0]), X(s.pts[i][1])]; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+      ctx.stroke();
+      // start via
+      ctx.beginPath(); ctx.arc(X(s.pts[0][0]), X(s.pts[0][1]), 2.5, 0, 6.283); ctx.stroke();
+
+      if (s.state === 'fade' || s.head - s.tail < 0.05) continue;
+      // bright moving body
+      const body = [at(s, s.tail)];
+      for (let i = Math.ceil(s.tail); i <= Math.floor(s.head); i++) body.push([X(s.pts[i][0]), X(s.pts[i][1])]);
+      body.push(at(s, s.head));
+      ctx.lineWidth = 2;
+      for (let i = 1; i < body.length; i++) {
+        ctx.globalAlpha = 0.12 + 0.88 * (i / (body.length - 1));
+        ctx.beginPath(); ctx.moveTo(body[i - 1][0], body[i - 1][1]); ctx.lineTo(body[i][0], body[i][1]); ctx.stroke();
+      }
+      const [hx, hy] = body[body.length - 1];
+      ctx.fillStyle = s.col;
+      ctx.globalAlpha = 0.18; ctx.beginPath(); ctx.arc(hx, hy, 7, 0, 6.283); ctx.fill();
+      ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(hx, hy, 2.6, 0, 6.283); ctx.fill();
+    }
+
+    for (const p of pads) {
+      const x = X(p.x), y = X(p.y);
+      ctx.globalAlpha = 0.55;
+      ctx.strokeStyle = colors.pad; ctx.lineWidth = 1.2;
+      ctx.strokeRect(x - 4, y - 4, 8, 8);
+      if (p.flash > 0) {
+        ctx.fillStyle = p.col; ctx.strokeStyle = p.col;
+        ctx.globalAlpha = p.flash; ctx.fillRect(x - 4, y - 4, 8, 8);
+        ctx.globalAlpha = p.flash * 0.6; ctx.beginPath(); ctx.arc(x, y, 6 + (1 - p.flash) * 22, 0, 6.283); ctx.stroke();
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function still() {
+    resize();
+    for (let i = 0; i < 260; i++) update(1 / 30);
+    for (const p of pads) p.flash = 0;
+    draw();
+  }
+
+  readColors();
+  new MutationObserver(() => { readColors(); if (reduced) draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener?.('change', () => { readColors(); if (reduced) draw(); });
+
+  let rt;
+  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => (reduced ? still() : resize()), 200); });
+
+  if (reduced) { still(); return; }
+
+  resize();
+  for (let i = 0; i < 90; i++) update(1 / 30); // start with traces already on the board
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    if (!document.hidden) { update(dt); draw(); }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
