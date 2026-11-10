@@ -1,401 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlackScale Digital Solutions | AI-Powered Digital Growth</title>
-    <meta name="description" content="BlackScale Digital Solutions — We engineer digital dominance through AI automations, cutting-edge marketing, and scalable digital infrastructure.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>BlackScale Agents</title>
+  <meta name="description" content="BlackScale builds and runs AI agents that test your SaaS product on every release, plus red team and blue team agents for security.">
+  <link rel="icon" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Animated Canvas Background -->
-    <canvas id="waveCanvas"></canvas>
 
-    <!-- Particle Overlay -->
-    <canvas id="particleCanvas"></canvas>
+  <!-- Shared avatar drawing. Accent comes from currentColor. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="avatar" viewBox="0 0 120 120">
+        <line x1="60" y1="22" x2="60" y2="9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="60" cy="8" r="4.5" fill="currentColor"/>
+        <rect x="8" y="48" width="9" height="22" rx="4" fill="var(--line-strong)"/>
+        <rect x="103" y="48" width="9" height="22" rx="4" fill="var(--line-strong)"/>
+        <rect x="16" y="22" width="88" height="78" rx="24" fill="var(--surface-2)" stroke="currentColor" stroke-width="2.5"/>
+        <rect x="27" y="38" width="66" height="36" rx="14" fill="var(--visor)"/>
+        <rect x="41" y="47" width="10" height="18" rx="5" fill="currentColor"/>
+        <rect x="69" y="47" width="10" height="18" rx="5" fill="currentColor"/>
+        <rect x="48" y="84" width="24" height="4" rx="2" fill="var(--line-strong)"/>
+      </symbol>
+    </defs>
+  </svg>
 
-    <!-- Navigation -->
-    <nav id="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <span class="logo-icon">◆</span>
-                <span class="logo-text">BLACK<span class="accent">SCALE</span> <span class="logo-sub">DIGITAL</span></span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#services">Services</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#results">Results</a></li>
-                <li><a href="#process">Process</a></li>
-                <li><a href="https://calendly.com/contact-blackscale/30min" target="_blank" class="nav-cta">Get Started</a></li>
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a href="#" class="brand" aria-label="BlackScale home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="6" y="6" width="20" height="20" transform="rotate(45 16 16)" fill="none" stroke="var(--silver)" stroke-width="2.5"/>
+          <rect x="10.5" y="10.5" width="11" height="11" transform="rotate(45 16 16)" fill="var(--accent)"/>
+        </svg>
+        <span class="brand-word">BlackScale</span>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="#live">Live run</a>
+        <a href="#agents">Agents</a>
+        <a href="#process">How it works</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="btn btn-small" href="https://calendly.com/contact-blackscale/30min" target="_blank" rel="noopener">Book a call</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <p class="eyebrow">AI agents for SaaS reliability and security</p>
+        <h1>Agents that break your app before your customers do.</h1>
+        <div class="hero-foot">
+          <p class="lede">We build, run and maintain AI agents that test your product on every release. They click through real user flows, check what the UI and API actually return, and file bugs with steps to reproduce. For security, red team agents probe the scope you approve and blue team agents make sure you would catch them.</p>
+          <div class="hero-actions">
+            <a class="btn" href="https://calendly.com/contact-blackscale/30min" target="_blank" rel="noopener">Book a 30-minute call</a>
+            <a class="btn btn-ghost" href="#live">Watch an agent run</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="live" class="live">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>One run, start to finish</h2>
+          <p>An example run against Ledgerline, a demo billing app. Switch agents to see how each one works.</p>
+        </div>
+
+        <div class="console" id="console" data-mode="qa">
+          <div class="console-bar">
+            <div class="agent-id">
+              <svg class="avatar-live" id="avatarLive" viewBox="0 0 120 120" aria-hidden="true">
+                <g class="antenna">
+                  <line x1="60" y1="22" x2="60" y2="9" stroke="var(--agent)" stroke-width="3" stroke-linecap="round"/>
+                  <circle class="led" cx="60" cy="8" r="4.5" fill="var(--agent)"/>
+                </g>
+                <rect x="8" y="48" width="9" height="22" rx="4" fill="var(--line-strong)"/>
+                <rect x="103" y="48" width="9" height="22" rx="4" fill="var(--line-strong)"/>
+                <rect x="16" y="22" width="88" height="78" rx="24" fill="var(--surface-2)" stroke="var(--agent)" stroke-width="2.5"/>
+                <rect x="27" y="38" width="66" height="36" rx="14" fill="var(--visor)"/>
+                <clipPath id="visorClip"><rect x="27" y="38" width="66" height="36" rx="14"/></clipPath>
+                <rect class="scan" x="27" y="38" width="10" height="36" fill="var(--agent)" opacity=".18" clip-path="url(#visorClip)"/>
+                <g id="eyes">
+                  <rect class="eye" x="41" y="47" width="10" height="18" rx="5" fill="var(--agent)"/>
+                  <rect class="eye" x="69" y="47" width="10" height="18" rx="5" fill="var(--agent)"/>
+                </g>
+                <g class="mouth" fill="var(--agent)">
+                  <rect x="47" y="84" width="4" height="4" rx="2"/>
+                  <rect x="53" y="84" width="4" height="4" rx="2"/>
+                  <rect x="59" y="84" width="4" height="4" rx="2"/>
+                  <rect x="65" y="84" width="4" height="4" rx="2"/>
+                  <rect x="71" y="84" width="4" height="4" rx="2"/>
+                </g>
+              </svg>
+              <div class="agent-meta">
+                <div class="agent-name"><span id="agentName">Probe</span> <span class="agent-role" id="agentRole">Reliability QA</span></div>
+                <div class="agent-status"><span class="status-dot"></span><span id="agentStatus">Running</span> · <span class="mono" id="runTimer">00:00.0</span></div>
+              </div>
+            </div>
+            <div class="tabs" role="tablist" aria-label="Choose an agent">
+              <button role="tab" id="tab-qa" data-mode="qa" aria-selected="true">Probe <span>QA</span></button>
+              <button role="tab" id="tab-red" data-mode="red" aria-selected="false">Breach <span>Red</span></button>
+              <button role="tab" id="tab-blue" data-mode="blue" aria-selected="false">Warden <span>Blue</span></button>
+            </div>
+          </div>
+
+          <div class="console-body">
+            <div class="viewport">
+              <div class="vp-chrome">
+                <span class="vp-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="vp-url mono" id="vpUrl">staging.ledgerline.app/settings/billing</span>
+              </div>
+              <div class="screen" id="screen"></div>
+              <div class="cursor" id="cursor" aria-hidden="true">
+                <svg viewBox="0 0 20 20"><path d="M3 2l13 7-6 1.5L7.5 17z" fill="var(--agent)" stroke="var(--bg)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+            <div class="trace">
+              <div class="trace-head mono"><span>Trace</span><span id="stepCount">0 / 0</span></div>
+              <ol class="log" id="log" aria-live="polite"></ol>
+            </div>
+          </div>
+
+          <div class="finding" id="finding" hidden></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="agents" class="agents">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>The agents</h2>
+          <p>Each agent is set up for your product, runs on our infrastructure, and has a BlackScale engineer behind it.</p>
+        </div>
+
+        <article class="agent-card agent-primary" style="--agent: var(--probe)">
+          <div class="agent-card-head">
+            <svg class="avatar-sm" aria-hidden="true"><use href="#avatar"/></svg>
+            <div>
+              <p class="agent-kicker">Core product</p>
+              <h3>Probe <span>Reliability QA</span></h3>
+            </div>
+          </div>
+          <div class="agent-card-body">
+            <p>Probe learns your app the way a new QA hire would, by using it. Then it runs every important flow on each deploy and tells you the moment one stops working.</p>
+            <ul class="tasks">
+              <li>Explores signup, checkout, billing and admin flows and drafts a test plan for you to approve</li>
+              <li>Runs every flow in real browsers on each pull request and every night</li>
+              <li>Checks API responses, emails, webhooks and invoices, not only what is on screen</li>
+              <li>Adapts when your UI changes, and tells you each time it did</li>
+              <li>Files regressions with a video trace, repro steps and the deploy that caused them</li>
             </ul>
-            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-    </nav>
+          </div>
+        </article>
 
-    <!-- Hero Section -->
-    <section id="hero">
-        <div class="hero-content">
-            <div class="hero-badge" data-animate="fade-up">
-                <span class="badge-dot"></span>
-                AI-Powered Digital Agency
+        <div class="pair">
+          <article class="agent-card" style="--agent: var(--red)">
+            <div class="agent-card-head">
+              <svg class="avatar-sm" aria-hidden="true"><use href="#avatar"/></svg>
+              <div>
+                <p class="agent-kicker">Offensive security</p>
+                <h3>Breach <span>Red team</span></h3>
+              </div>
             </div>
-            <h1 data-animate="fade-up" data-delay="100">
-                We Don't Build Websites.<br>
-                <span class="gradient-text">We Build Empires.</span>
-            </h1>
-            <p class="hero-subtitle" data-animate="fade-up" data-delay="200">
-                BlackScale Digital Solutions engineers digital dominance through 
-                AI automations, precision marketing, and scalable infrastructure 
-                that turns startups into market leaders.
-            </p>
-            <div class="hero-actions" data-animate="fade-up" data-delay="300">
-                <a href="https://calendly.com/contact-blackscale/30min" target="_blank" class="btn-primary">
-                    <span>Scale Your Business</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-                <a href="#services" class="btn-secondary">
-                    <span>Explore Services</span>
-                </a>
+            <ul class="tasks">
+              <li>Maps your attack surface from the app and its API</li>
+              <li>Tests auth, tenant isolation, injection and rate limits</li>
+              <li>Runs only against the targets and time window you sign off</li>
+              <li>Stops at proof. Each finding comes with a suggested fix</li>
+            </ul>
+          </article>
+
+          <div class="pair-link" aria-hidden="true">
+            <span class="mono">finding</span>
+            <span class="pair-line"></span>
+            <span class="mono">detection</span>
+          </div>
+
+          <article class="agent-card" style="--agent: var(--teal)">
+            <div class="agent-card-head">
+              <svg class="avatar-sm" aria-hidden="true"><use href="#avatar"/></svg>
+              <div>
+                <p class="agent-kicker">Defensive security</p>
+                <h3>Warden <span>Blue team</span></h3>
+              </div>
             </div>
-            <div class="hero-stats" data-animate="fade-up" data-delay="400">
-                <div class="stat-item">
-                    <span class="stat-number" data-count="150">0</span><span class="stat-suffix">+</span>
-                    <span class="stat-label">Clients Scaled</span>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <span class="stat-number" data-count="500">0</span><span class="stat-suffix">%</span>
-                    <span class="stat-label">Avg ROI Increase</span>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <span class="stat-number" data-count="50">0</span><span class="stat-suffix">M+</span>
-                    <span class="stat-label">Revenue Generated</span>
-                </div>
-            </div>
+            <ul class="tasks">
+              <li>Reads your auth, API and infrastructure logs around the clock</li>
+              <li>Groups related events into incidents with a timeline</li>
+              <li>Writes detection rules and tests them against past logs</li>
+              <li>Replays every Breach finding to confirm you would have caught it</li>
+            </ul>
+          </article>
         </div>
-        <div class="scroll-indicator" data-animate="fade-up" data-delay="600">
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-            <span>Scroll to explore</span>
-        </div>
+      </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services">
-        <div class="container">
-            <div class="section-header" data-animate="fade-up">
-                <span class="section-tag">What We Do</span>
-                <h2>Services Built for <span class="gradient-text">Domination</span></h2>
-                <p class="section-desc">We don't offer cookie-cutter solutions. Every strategy is engineered for maximum impact.</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card featured" data-animate="fade-up" data-delay="0">
-                    <div class="card-glow"></div>
-                    <div class="service-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
-                    </div>
-                    <span class="service-tag">Most Popular</span>
-                    <h3>AI Automations</h3>
-                    <p>Custom AI workflows that eliminate bottlenecks, automate repetitive tasks, and scale your operations 10x without hiring.</p>
-                    <ul class="service-features">
-                        <li>Intelligent chatbots & virtual assistants</li>
-                        <li>Automated lead scoring & nurturing</li>
-                        <li>AI-powered content generation</li>
-                        <li>Predictive analytics & forecasting</li>
-                    </ul>
-                    <a href="https://calendly.com/contact-blackscale/30min" target="_blank" class="service-link">Learn More <span>→</span></a>
-                </div>
-                <div class="service-card" data-animate="fade-up" data-delay="100">
-                    <div class="card-glow"></div>
-                    <div class="service-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-                        </svg>
-                    </div>
-                    <h3>Digital Marketing</h3>
-                    <p>Performance-driven campaigns that capture attention, convert prospects, and crush your competition.</p>
-                    <ul class="service-features">
-                        <li>Paid ads (Meta, Google, TikTok)</li>
-                        <li>SEO & organic growth strategy</li>
-                        <li>Social media management</li>
-                        <li>Email marketing automation</li>
-                    </ul>
-                    <a href="https://calendly.com/contact-blackscale/30min" target="_blank" class="service-link">Learn More <span>→</span></a>
-                </div>
-                <div class="service-card" data-animate="fade-up" data-delay="200">
-                    <div class="card-glow"></div>
-                    <div class="service-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
-                        </svg>
-                    </div>
-                    <h3>Web & App Development</h3>
-                    <p>Lightning-fast, conversion-optimized digital experiences that turn visitors into loyal customers.</p>
-                    <ul class="service-features">
-                        <li>Custom web applications</li>
-                        <li>E-commerce platforms</li>
-                        <li>Progressive web apps (PWA)</li>
-                        <li>SaaS product development</li>
-                    </ul>
-                    <a href="https://calendly.com/contact-blackscale/30min" target="_blank" class="service-link">Learn More <span>→</span></a>
-                </div>
-                <div class="service-card" data-animate="fade-up" data-delay="300">
-                    <div class="card-glow"></div>
-                    <div class="service-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
-                        </svg>
-                    </div>
-                    <h3>Brand Strategy</h3>
-                    <p>From zero to unforgettable. We craft brand identities that demand attention and build lasting authority.</p>
-                    <ul class="service-features">
-                        <li>Brand identity & visual design</li>
-                        <li>Positioning & messaging framework</li>
-                        <li>Content strategy & storytelling</li>
-                        <li>Reputation management</li>
-                    </ul>
-                    <a href="https://calendly.com/contact-blackscale/30min" target="_blank" class="service-link">Learn More <span>→</span></a>
-                </div>
-            </div>
+    <section id="process" class="process">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>How it works</h2>
+          <p>Most teams have an agent running against staging within two weeks of the first call.</p>
         </div>
+        <ol class="steps">
+          <li>
+            <span class="step-n mono">01</span>
+            <h3>Scope call</h3>
+            <p>30 minutes. We pick the flows that cost you the most when they break, and agree what security testing is in scope.</p>
+          </li>
+          <li>
+            <span class="step-n mono">02</span>
+            <h3>Map</h3>
+            <p>Probe explores your staging app and drafts a test plan. You review it and mark what matters.</p>
+          </li>
+          <li>
+            <span class="step-n mono">03</span>
+            <h3>Run</h3>
+            <p>Suites run in your CI on every pull request and on a nightly schedule. Security runs follow the window you set.</p>
+          </li>
+          <li>
+            <span class="step-n mono">04</span>
+            <h3>Triage</h3>
+            <p>An engineer checks each finding before it reaches you, so your tracker gets real bugs, not noise.</p>
+          </li>
+        </ol>
+      </div>
     </section>
 
-    <!-- About / Why Us Section -->
-    <section id="about">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-content" data-animate="fade-right">
-                    <span class="section-tag">Why BlackScale</span>
-                    <h2>We're Not Another <span class="gradient-text">Agency.</span></h2>
-                    <p class="about-lead">We're growth engineers. While others build websites and run ads, we architect complete digital ecosystems that compound your revenue month over month.</p>
-                    <div class="about-features">
-                        <div class="about-feature">
-                            <div class="feature-icon">⚡</div>
-                            <div>
-                                <h4>Speed to Market</h4>
-                                <p>We move fast. Campaigns launch in days, not months. Your competition won't know what hit them.</p>
-                            </div>
-                        </div>
-                        <div class="about-feature">
-                            <div class="feature-icon">🎯</div>
-                            <div>
-                                <h4>Data-Driven Precision</h4>
-                                <p>Every decision backed by real-time analytics. No guessing. No wasted budget. Pure ROI.</p>
-                            </div>
-                        </div>
-                        <div class="about-feature">
-                            <div class="feature-icon">🤖</div>
-                            <div>
-                                <h4>AI-First Approach</h4>
-                                <p>We leverage cutting-edge AI to give you an unfair advantage in every aspect of your digital presence.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-visual" data-animate="fade-left">
-                    <div class="visual-card">
-                        <div class="visual-header">
-                            <div class="visual-dots"><span></span><span></span><span></span></div>
-                            <span>blackscale_analytics.py</span>
-                        </div>
-                        <pre class="code-block"><code><span class="code-keyword">class</span> <span class="code-class">GrowthEngine</span>:
-    <span class="code-keyword">def</span> <span class="code-func">__init__</span>(self):
-        self.ai_models = <span class="code-string">"loaded"</span>
-        self.strategy = <span class="code-string">"dominate"</span>
-        self.limits = <span class="code-const">None</span>
-
-    <span class="code-keyword">async def</span> <span class="code-func">scale</span>(self, client):
-        <span class="code-comment"># There are no limits.</span>
-        pipeline = <span class="code-keyword">await</span> self.analyze(client)
-        results = <span class="code-keyword">await</span> self.execute(pipeline)
-        <span class="code-keyword">return</span> results.grow(<span class="code-string">"exponentially"</span>)</code></pre>
-                        <div class="terminal-cursor"></div>
-                    </div>
-                </div>
-            </div>
+    <section id="faq" class="faq">
+      <div class="wrap faq-grid">
+        <div class="section-head">
+          <h2>Questions teams ask first</h2>
         </div>
+        <div class="faq-list">
+          <details open>
+            <summary>Do the agents need access to production?</summary>
+            <p>No. Most teams start on staging with seeded test accounts. Some later add read-only checks against production for flows like signup and checkout.</p>
+          </details>
+          <details>
+            <summary>How is this different from writing Playwright or Cypress tests?</summary>
+            <p>You don't write or maintain the tests. Probe drafts them, keeps them working as your UI changes, and checks outcomes your scripts usually skip, like the invoice total or the email that should have gone out.</p>
+          </details>
+          <details>
+            <summary>What will the red team agent not do?</summary>
+            <p>It never runs outside the targets and time window in your signed authorization. It does not run denial-of-service tests, touch real customer data on purpose, or keep any data it reaches. It stops at proof and reports.</p>
+          </details>
+          <details>
+            <summary>Where do findings show up?</summary>
+            <p>In the tools your team already uses: your issue tracker, your CI checks and a Slack or Teams channel. Every finding links to its trace.</p>
+          </details>
+        </div>
+      </div>
     </section>
 
-    <!-- Results Section -->
-    <section id="results">
-        <div class="container">
-            <div class="section-header" data-animate="fade-up">
-                <span class="section-tag">Proven Results</span>
-                <h2>Numbers That <span class="gradient-text">Speak Volumes</span></h2>
-                <p class="section-desc">We let our results do the talking. Here's what happens when BlackScale takes the wheel.</p>
-            </div>
-            <div class="results-grid">
-                <div class="result-card" data-animate="fade-up" data-delay="0">
-                    <div class="result-metric">
-                        <span class="result-number" data-count="847">0</span><span class="result-suffix">%</span>
-                    </div>
-                    <h4>Revenue Growth</h4>
-                    <p>Average revenue increase for e-commerce clients within 6 months of engagement.</p>
-                </div>
-                <div class="result-card" data-animate="fade-up" data-delay="100">
-                    <div class="result-metric">
-                        <span class="result-number" data-count="3">0</span><span class="result-suffix">.2x</span>
-                    </div>
-                    <h4>ROAS Average</h4>
-                    <p>Return on ad spend across all managed advertising campaigns.</p>
-                </div>
-                <div class="result-card" data-animate="fade-up" data-delay="200">
-                    <div class="result-metric">
-                        <span class="result-number" data-count="10">0</span><span class="result-suffix">M+</span>
-                    </div>
-                    <h4>Leads Generated</h4>
-                    <p>Qualified leads delivered to our clients through multi-channel strategies.</p>
-                </div>
-                <div class="result-card" data-animate="fade-up" data-delay="300">
-                    <div class="result-metric">
-                        <span class="result-number" data-count="98">0</span><span class="result-suffix">%</span>
-                    </div>
-                    <h4>Client Retention</h4>
-                    <p>Our clients stay because we deliver. Period.</p>
-                </div>
-            </div>
-        </div>
+    <section class="closing">
+      <div class="wrap closing-inner">
+        <h2>Tell us the one flow that keeps breaking.</h2>
+        <p>We'll start there, and show you an agent running it on the call.</p>
+        <a class="btn" href="https://calendly.com/contact-blackscale/30min" target="_blank" rel="noopener">Book a 30-minute call</a>
+      </div>
     </section>
+  </main>
 
-    <!-- Process Section -->
-    <section id="process">
-        <div class="container">
-            <div class="section-header" data-animate="fade-up">
-                <span class="section-tag">Our Process</span>
-                <h2>From Zero to <span class="gradient-text">Scale</span></h2>
-                <p class="section-desc">A battle-tested framework that consistently delivers explosive growth.</p>
-            </div>
-            <div class="process-timeline">
-                <div class="process-step" data-animate="fade-up" data-delay="0">
-                    <div class="step-number">01</div>
-                    <div class="step-content">
-                        <h3>Deep Discovery</h3>
-                        <p>We dissect your business, market, and competitors. No stone unturned. We find the gaps and the gold.</p>
-                    </div>
-                    <div class="step-line"></div>
-                </div>
-                <div class="process-step" data-animate="fade-up" data-delay="150">
-                    <div class="step-number">02</div>
-                    <div class="step-content">
-                        <h3>Strategic Blueprint</h3>
-                        <p>A custom growth playbook engineered specifically for your business. Data-backed, AI-enhanced, and battle-ready.</p>
-                    </div>
-                    <div class="step-line"></div>
-                </div>
-                <div class="process-step" data-animate="fade-up" data-delay="300">
-                    <div class="step-number">03</div>
-                    <div class="step-content">
-                        <h3>Rapid Execution</h3>
-                        <p>We deploy fast. Campaigns, automations, and systems go live while your competitors are still in meetings.</p>
-                    </div>
-                    <div class="step-line"></div>
-                </div>
-                <div class="process-step" data-animate="fade-up" data-delay="450">
-                    <div class="step-number">04</div>
-                    <div class="step-content">
-                        <h3>Scale & Optimize</h3>
-                        <p>Continuous optimization through AI-driven insights. We don't just launch — we relentlessly improve and scale.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>© 2026 BlackScale Digital</span>
+      <span class="mono">hello@blackscale.io</span>
+    </div>
+  </footer>
 
-    <!-- CTA Section -->
-    <section id="contact">
-        <div class="container">
-            <div class="cta-wrapper" data-animate="fade-up">
-                <div class="cta-glow"></div>
-                <span class="section-tag">Ready to Scale?</span>
-                <h2>Your Competition Is Already <span class="gradient-text">Moving.</span></h2>
-                <p class="cta-desc">Every day you wait is a day your competitors gain ground. Let's build your unfair advantage — starting now.</p>
-                <form class="cta-form" id="contactForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <input type="text" id="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" placeholder="Your Email" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <select id="service">
-                            <option value="" disabled selected>What do you need?</option>
-                            <option value="ai">AI Automations</option>
-                            <option value="marketing">Digital Marketing</option>
-                            <option value="web">Web & App Development</option>
-                            <option value="brand">Brand Strategy</option>
-                            <option value="all">Full-Scale Growth Package</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="message" placeholder="Tell us about your project..." rows="4"></textarea>
-                    </div>
-                    <a href="https://calendly.com/contact-blackscale/30min" target="_blank" class="btn-primary btn-full">
-                        <span>Launch My Growth</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-                    </a>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="#" class="logo">
-                        <span class="logo-icon">⬡</span>
-                        <span class="logo-text">BLACK<span class="accent">SCALE</span></span>
-                    </a>
-                    <p>Engineering digital dominance for brands that refuse to be average.</p>
-                    <div class="social-links">
-                        <a href="#" aria-label="Twitter">𝕏</a>
-                        <a href="#" aria-label="LinkedIn">in</a>
-                        <a href="#" aria-label="Instagram">📷</a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>Services</h4>
-                    <a href="#services">AI Automations</a>
-                    <a href="#services">Digital Marketing</a>
-                    <a href="#services">Web Development</a>
-                    <a href="#services">Brand Strategy</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Company</h4>
-                    <a href="#about">About Us</a>
-                    <a href="#results">Case Studies</a>
-                    <a href="#process">Our Process</a>
-                    <a href="#contact">Contact</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Connect</h4>
-                    <a href="mailto:hello@blackscale.io">hello@blackscale.io</a>
-                    <a href="tel:+1234567890">+1 (234) 567-890</a>
-                    <a href="https://calendly.com/contact-blackscale/30min" target="_blank">Schedule a Call</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 BlackScale Digital Solutions. All rights reserved.</p>
-                <div class="footer-bottom-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
