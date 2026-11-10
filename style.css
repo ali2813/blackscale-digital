@@ -445,6 +445,28 @@ section { padding-block: clamp(56px, 8vw, 104px); }
 .closing p.contact-line { font-size: var(--step-0); margin: 12px 0 0; overflow-wrap: anywhere; }
 .footer-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-block: 24px max(24px, env(safe-area-inset-bottom, 0px)); color: var(--muted); font-size: 0.875rem; }
 
+/* ---------- Legal pages ---------- */
+.footer-links { display: flex; gap: 18px; }
+.footer-links a { color: var(--muted); text-decoration: none; }
+.footer-links a:hover, .footer-links a[aria-current="page"] { color: var(--fg); }
+.legal { padding-block: clamp(40px, 6vw, 80px) clamp(56px, 8vw, 104px); }
+.legal .back { display: inline-block; color: var(--muted); text-decoration: none; font-size: 0.9375rem; margin-bottom: 28px; }
+.legal .back:hover { color: var(--fg); }
+.legal h1 { font-size: clamp(2.2rem, 1.4rem + 3vw, 3.6rem); font-stretch: 118%; font-weight: 760; letter-spacing: -0.02em; line-height: 1; }
+.legal .effective { color: var(--muted); font-size: var(--step--1); margin-top: 14px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+.prose { max-width: 70ch; color: var(--silver); }
+.prose > * + * { margin-top: 14px; }
+.prose h2 { font-size: 1.35rem; font-stretch: 110%; color: var(--fg); margin-top: 44px; }
+.prose h3 { font-size: 1.05rem; color: var(--fg); margin-top: 24px; font-stretch: 105%; }
+.prose ul { padding-left: 20px; display: grid; gap: 8px; }
+.prose b { color: var(--fg); font-weight: 600; }
+.prose a { color: var(--accent); text-underline-offset: 3px; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line-strong); border-radius: 10px; }
+.prose table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; min-width: 520px; }
+.prose th, .prose td { text-align: left; padding: 12px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+.prose td.mono { white-space: nowrap; font-family: var(--f-mono); font-size: 0.875rem; }
+.prose th { border-top: 0; color: var(--fg); font-weight: 600; background: var(--surface); }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
   .console-body { grid-template-columns: minmax(0, 1fr); }
@@ -457,6 +479,7 @@ section { padding-block: clamp(56px, 8vw, 104px); }
 }
 @media (max-width: 720px) {
   .nav { display: none; }
+  .footer-row { flex-direction: column; }
   .header-row { gap: 12px; }
   .brand { margin-right: auto; }
   .hero-foot { grid-template-columns: minmax(0, 1fr); gap: 24px; }
